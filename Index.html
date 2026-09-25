@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<base target="_top">
+</head>
+<body>
+<title>BHGY Plantation Post-Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Hind:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#F1F5EE; --surface:#FFFFFF; --surface-2:#E7EFE3; --ink:#15231A; --muted:#58695E; --line:#D3DDCF;
+  --leaf:#1E6A42; --leaf-ink:#FFFFFF; --leaf-soft:#DCEEE2;
+  --mango:#D98A00; --mango-soft:#FCEFD3;
+  --ok:#23804A; --ok-soft:#DDF1E3; --bad:#B8382A; --bad-soft:#F8E0DC; --skip:#6F7A73; --skip-soft:#E8ECE9;
+  --mark:#6A4FB3; --mark-soft:#E9E3F7;
+  --c0:#1E6A42; --c1:#C27800; --c2:#6A4FB3; --c3:#B83E68; --c4:#246FA3;
+  --shadow:0 1px 2px rgba(21,35,26,.06),0 6px 20px rgba(21,35,26,.06);
+  --display:"Baloo 2","Hind",system-ui,sans-serif; --body:"Hind","Baloo 2",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0E1511; --surface:#16201A; --surface-2:#1D2A22; --ink:#E3ECE5; --muted:#9BAEA2; --line:#2B3A31;
+    --leaf:#4FB27A; --leaf-ink:#0B1A11; --leaf-soft:#1C3527;
+    --mango:#F1B23C; --mango-soft:#3A2D12;
+    --ok:#5CC486; --ok-soft:#173424; --bad:#F07A6A; --bad-soft:#3D1D19; --skip:#9AA59E; --skip-soft:#252E29;
+    --mark:#A993EC; --mark-soft:#2A2440;
+    --c0:#4FB27A; --c1:#F1B23C; --c2:#A993EC; --c3:#EE7CA2; --c4:#62B0E6;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0E1511; --surface:#16201A; --surface-2:#1D2A22; --ink:#E3ECE5; --muted:#9BAEA2; --line:#2B3A31;
+  --leaf:#4FB27A; --leaf-ink:#0B1A11; --leaf-soft:#1C3527;
+  --mango:#F1B23C; --mango-soft:#3A2D12;
+  --ok:#5CC486; --ok-soft:#173424; --bad:#F07A6A; --bad-soft:#3D1D19; --skip:#9AA59E; --skip-soft:#252E29;
+  --mark:#A993EC; --mark-soft:#2A2440;
+  --c0:#4FB27A; --c1:#F1B23C; --c2:#A993EC; --c3:#EE7CA2; --c4:#62B0E6;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;margin:0}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--mango);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:16px;padding-block:0 48px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;text-wrap:balance;margin:0}
+.hi{font-family:var(--body)}
+/* language modes */
+body.lang-en .t-hi{display:none!important}
+body.lang-hi .t-en{display:none!important}
+.t-hi{display:block}
+.inline .t-hi,.inline .t-en{display:inline}
+body.lang-both .inline .t-hi::before{content:" / ";color:var(--muted)}
+.sub-hi{color:var(--muted)}
+body.lang-hi .sub-hi{color:inherit}
+
+/* top bar */
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:18px 14px}
+.brand-mark{display:flex;align-items:center;gap:10px;min-width:0}
+.leafdot{width:34px;height:34px;flex:none;border-radius:50% 4px 50% 50%;background:linear-gradient(135deg,var(--leaf),var(--mango));transform:rotate(-45deg)}
+.brand-name{font-family:var(--display);font-weight:700;font-size:1.05rem;line-height:1.1}
+.brand-name small{display:block;font-family:var(--body);font-weight:500;color:var(--muted);font-size:.8rem}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:4px 12px;font-size:.85rem;font-weight:600;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+
+/* start screen */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;grid-template-areas:"intro form" "rules form";column-gap:28px;row-gap:0;align-items:start;margin-top:8px}
+.hero-intro{grid-area:intro}.hero-rules{grid-area:rules}#reg{grid-area:form}
+@media (max-width:820px){.hero{grid-template-columns:1fr;grid-template-areas:"intro" "form" "rules";row-gap:22px}}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--leaf)}
+.hero h1{font-size:clamp(2rem,4.2vw,3rem);font-weight:800;margin-top:6px}
+.hero h1 .hi{display:block;font-family:var(--display);font-weight:600;font-size:.62em;color:var(--muted);margin-top:6px}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
+@media (max-width:560px){.facts{grid-template-columns:repeat(2,1fr)}}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.fact b{display:block;font-family:var(--display);font-size:1.6rem;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.fact span{font-size:.82rem;color:var(--muted);line-height:1.3;display:block;margin-top:4px}
+.rules{margin-top:22px;display:grid;gap:10px;padding:0;list-style:none}
+.rules li{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start}
+.rules .ic{width:26px;height:26px;border-radius:8px;background:var(--leaf-soft);color:var(--leaf);display:grid;place-items:center;font-weight:700;font-size:.85rem}
+.rules .t-hi{color:var(--muted);font-size:.95rem}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow)}
+.panel h2{font-size:1.35rem}
+.field{display:grid;gap:4px;margin-top:14px}
+.field label{font-weight:600;font-size:.92rem}
+.field label .req{color:var(--bad)}
+.field input{width:100%;border:1.5px solid var(--line);background:var(--ground);border-radius:10px;padding:10px 12px;font-size:1rem}
+.field input:focus{border-color:var(--leaf);outline:none;box-shadow:0 0 0 3px var(--leaf-soft)}
+.field .err{color:var(--bad);font-size:.85rem;min-height:0}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:480px){.row2{grid-template-columns:1fr}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:12px 18px;font-weight:600;font-size:1rem;text-decoration:none;line-height:1.2}
+.btn-primary{background:var(--leaf);color:var(--leaf-ink)}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{background:var(--surface-2);color:var(--ink)}
+.btn-ghost:hover{background:var(--line)}
+.btn-warn{background:var(--mango);color:#1d1400}
+.btn-block{width:100%;margin-top:18px;padding-block:14px;font-size:1.08rem}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.legend-types{display:grid;gap:8px;margin-top:16px;font-size:.9rem}
+.tag{display:inline-block;font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px}
+.tag-one{background:var(--leaf-soft);color:var(--leaf)}
+.tag-multi{background:var(--mango-soft);color:var(--c1)}
+.title{font-size:clamp(2rem,4.2vw,2.8rem);font-weight:800;margin-top:6px}
+.title .hi{display:block;font-family:var(--display);font-weight:600;font-size:.6em;color:var(--muted);margin-top:4px}
+.stepper{list-style:none;padding:0;margin:20px 0 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;counter-reset:s}
+.stepper li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--surface-2);color:var(--muted);font-weight:600;line-height:1.2;font-size:.92rem}
+.stepper li small{font-weight:500}
+.stepper li b{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--surface);color:var(--muted);font-family:var(--display)}
+.stepper li.on{background:var(--leaf-soft);color:var(--leaf)}
+.stepper li.on b{background:var(--leaf);color:var(--leaf-ink)}
+.stepper li.done b{background:var(--leaf);color:var(--leaf-ink)}
+@media (max-width:480px){.stepper li{flex-direction:column;text-align:center;font-size:.8rem;padding:8px 4px}}
+.step{max-width:820px}
+.step .facts{margin-top:16px}
+.agree{display:flex;gap:10px;align-items:flex-start;margin-top:20px;padding:12px 14px;border-radius:12px;background:var(--mango-soft);font-weight:600;cursor:pointer}
+.agree input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--leaf)}
+.agree .t-hi{font-weight:500}
+.stepnav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:20px}
+.summary{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:16px 0 0;padding:14px 16px;border-radius:12px;background:var(--surface-2)}
+.summary dt{color:var(--muted);font-size:.9rem}
+.summary dd{margin:0;font-weight:600;word-break:break-word}
+.startbox{margin-top:14px;padding:12px 14px;border-left:4px solid var(--mango);background:var(--mango-soft);border-radius:8px}
+.btn-go{font-size:1.1rem;padding:14px 24px}
+.confirm-check{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:10px 12px;border-radius:10px;background:var(--surface-2);font-weight:600;cursor:pointer}
+.confirm-check input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--leaf)}
+.warnline{margin-top:10px;padding:8px 12px;border-radius:10px;background:var(--bad-soft);color:var(--bad);font-weight:600;font-size:.92rem}
+.resume{background:var(--mango-soft);border:1px solid var(--mango);border-radius:14px;padding:14px 16px;margin-top:14px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+
+/* test screen */
+.testbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ground);padding-block:10px;border-bottom:1px solid var(--line)}
+.testbar-in{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between}
+.who{font-size:.9rem;color:var(--muted);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:260px}
+.who b{color:var(--ink)}
+.timer{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:var(--ok-soft);color:var(--ok);font-family:var(--display);font-weight:700;font-size:1.35rem;font-variant-numeric:tabular-nums;letter-spacing:.02em;transition:background .3s,color .3s}
+.timer svg{width:20px;height:20px}
+.timer.warn{background:var(--mango-soft);color:var(--c1)}
+.timer.danger{background:var(--bad-soft);color:var(--bad);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.05)}}
+@media (prefers-reduced-motion:reduce){.timer.danger{animation:none}}
+.timeline{height:5px;background:var(--surface-2);border-radius:99px;margin-top:10px;overflow:hidden}
+.timeline i{display:block;height:100%;background:var(--leaf);width:0;transition:width .5s linear,background .3s}
+.testgrid{display:grid;grid-template-columns:1fr 290px;gap:22px;margin-top:20px;align-items:start}
+@media (max-width:860px){.testgrid{grid-template-columns:1fr}}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow)}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.qnum{font-family:var(--display);font-weight:700;color:var(--muted);font-size:.95rem}
+.qnum b{color:var(--ink);font-size:1.3rem}
+.qtext{margin-top:12px;white-space:pre-line}
+.qtext .t-en{font-family:var(--display);font-weight:600;font-size:1.22rem;line-height:1.35}
+.qtext .t-hi{font-size:1.1rem;margin-top:6px;font-weight:500}
+body.lang-both .qtext .t-hi{color:var(--muted)}
+body.lang-hi .qtext .t-hi{font-family:var(--display);font-weight:600;font-size:1.25rem;color:var(--ink)}
+.opts{display:grid;gap:10px;margin-top:18px}
+.opt{--c:var(--c0);display:grid;grid-template-columns:40px 1fr 22px;gap:12px;align-items:center;text-align:left;width:100%;background:var(--ground);border:2px solid var(--line);border-radius:14px;padding:10px 12px;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--c)}
+.opt .chip{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1.1rem;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);border:2px solid color-mix(in srgb,var(--c) 45%,transparent)}
+.opt.multi .chip{border-radius:50%}
+.opt .otext .t-hi{font-size:.95rem}
+body.lang-both .opt .otext .t-hi{color:var(--muted)}
+.opt .tick{width:22px;height:22px;border-radius:6px;border:2px solid var(--line);display:grid;place-items:center}
+.opt:not(.multi) .tick{border-radius:50%}
+.opt[aria-checked="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 10%,var(--surface))}
+.opt[aria-checked="true"] .chip{background:var(--c);color:var(--surface);border-color:var(--c)}
+.opt[aria-checked="true"] .tick{background:var(--c);border-color:var(--c)}
+.opt[aria-checked="true"] .tick::after{content:"";width:6px;height:11px;border:solid var(--surface);border-width:0 2.5px 2.5px 0;transform:translateY(-1px) rotate(45deg)}
+.qnav{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;justify-content:space-between}
+.qnav .grp{display:flex;gap:10px;flex-wrap:wrap}
+.btn-mark[aria-pressed="true"]{background:var(--mark-soft);color:var(--mark)}
+.side{display:grid;gap:14px}
+.palette{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px}
+.palette h3{font-size:1rem}
+.pgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-top:12px}
+@media (max-width:860px){.pgrid{grid-template-columns:repeat(10,1fr)}}
+@media (max-width:480px){.pgrid{grid-template-columns:repeat(6,1fr)}}
+.pbtn{aspect-ratio:1;max-width:100%;border-radius:10px;border:1.5px solid var(--line);background:var(--ground);font-weight:600;font-variant-numeric:tabular-nums;position:relative;font-size:.92rem}
+.pbtn.ans{background:var(--leaf);border-color:var(--leaf);color:var(--leaf-ink)}
+.pbtn.mk{background:var(--mark-soft);border-color:var(--mark);color:var(--mark)}
+.pbtn.ans.mk{background:var(--leaf);color:var(--leaf-ink);border-color:var(--mark);box-shadow:inset 0 0 0 2px var(--mark)}
+.pbtn.cur{outline:3px solid var(--mango);outline-offset:1px}
+.plegend{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:14px;font-size:.8rem;color:var(--muted)}
+.plegend span{display:flex;align-items:center;gap:6px}
+.plegend i{width:14px;height:14px;border-radius:4px;border:1.5px solid var(--line);background:var(--ground);flex:none}
+.plegend i.a{background:var(--leaf);border-color:var(--leaf)}
+.plegend i.m{background:var(--mark-soft);border-color:var(--mark)}
+.plegend i.c{outline:2px solid var(--mango)}
+.counts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;text-align:center}
+.counts div{background:var(--surface-2);border-radius:10px;padding:8px 4px;font-size:.75rem;color:var(--muted);line-height:1.2}
+.counts b{display:block;font-family:var(--display);font-size:1.3rem;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* modal */
+.scrim{position:fixed;inset:0;background:rgba(10,18,13,.55);display:grid;place-items:center;padding:16px;z-index:20}
+.modal{background:var(--surface);border-radius:18px;max-width:440px;width:100%;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.modal h3{font-size:1.3rem}
+.modal p{color:var(--muted);margin:.5em 0 0}
+.modal .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+
+/* results */
+.rhead{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;margin-top:8px}
+@media (max-width:640px){.rhead{grid-template-columns:1fr;justify-items:start}}
+.ring{width:170px;height:170px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .num{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ring .num b{font-family:var(--display);font-size:2.6rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.ring .num span{color:var(--muted);font-size:.9rem}
+.stamp{display:inline-block;font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:.08em;text-transform:uppercase;padding:4px 14px;border:3px solid currentColor;border-radius:10px;transform:rotate(-3deg)}
+.stamp.pass{color:var(--ok)}
+.stamp.fail{color:var(--bad)}
+.rtitle{font-size:clamp(1.6rem,3.4vw,2.3rem);font-weight:800;margin-top:10px}
+.rmeta{color:var(--muted);margin-top:6px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+@media (max-width:640px){.tiles{grid-template-columns:repeat(2,1fr)}}
+.tile{border-radius:14px;padding:14px 16px;background:var(--surface);border:1px solid var(--line)}
+.tile b{display:block;font-family:var(--display);font-size:2rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.tile span{font-size:.85rem;color:var(--muted);display:block;margin-top:6px;line-height:1.3}
+.tile.ok b{color:var(--ok)} .tile.bad b{color:var(--bad)} .tile.skip b{color:var(--skip)}
+.mailbox{margin-top:22px}
+.mailbox .addr{font-weight:600;word-break:break-all;user-select:all}
+.mailbox .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.mailbox textarea{width:100%;min-height:120px;margin-top:12px;border:1px solid var(--line);border-radius:10px;background:var(--ground);padding:10px;font:inherit;font-size:.85rem}
+.note{font-size:.86rem;color:var(--muted);margin-top:10px}
+.status{display:flex;gap:10px;align-items:center;padding:10px 14px;border-radius:12px;margin-top:12px;font-weight:500}
+.status.ok{background:var(--ok-soft);color:var(--ok)} .status.bad{background:var(--bad-soft);color:var(--bad)} .status.wait{background:var(--surface-2);color:var(--muted)}
+.review-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-top:34px}
+.review-head h2{font-size:1.5rem}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:.88rem;font-weight:600}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.rlist{display:grid;gap:14px;margin-top:14px}
+.ritem{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--skip);border-radius:14px;padding:18px}
+.ritem.ok{border-left-color:var(--ok)} .ritem.bad{border-left-color:var(--bad)}
+.ritem .top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.badge{font-size:.78rem;font-weight:700;padding:3px 10px;border-radius:999px}
+.badge.ok{background:var(--ok-soft);color:var(--ok)} .badge.bad{background:var(--bad-soft);color:var(--bad)} .badge.skip{background:var(--skip-soft);color:var(--skip)}
+.ritem .qt{margin-top:8px;white-space:pre-line}
+.ritem .qt .t-en{font-weight:600}
+body.lang-both .ritem .qt .t-hi{color:var(--muted)}
+.rop{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:6px}
+.rop li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:start;padding:7px 10px;border-radius:10px;background:var(--ground);font-size:.94rem}
+.rop li .L{font-family:var(--display);font-weight:700;color:var(--muted)}
+.rop li.correct{background:var(--ok-soft)}
+.rop li.correct .L{color:var(--ok)}
+.rop li.picked-wrong{background:var(--bad-soft)}
+.rop li.picked-wrong .L{color:var(--bad)}
+.rop .mk{font-size:.75rem;font-weight:700;white-space:nowrap}
+.rop li.correct .mk{color:var(--ok)} .rop li.picked-wrong .mk{color:var(--bad)}
+.rop .t-hi{color:var(--muted);font-size:.9rem}
+.explain{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--mango-soft)}
+.explain .lbl{font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--c1)}
+.explain .t-hi{margin-top:6px}
+.src{font-size:.8rem;color:var(--muted);margin-top:8px}
+.foot{margin-top:30px;display:flex;justify-content:center}
+footer.cred{text-align:center;color:var(--muted);font-size:.8rem;margin-top:34px}
+</style>
+
+<div class="wrap" id="app">
+  <header class="brand">
+    <div class="brand-mark">
+      <div class="leafdot" aria-hidden="true"></div>
+      <div class="brand-name">Birsa Harit Gram Yojana<small>बिरसा हरित ग्राम योजना · Horticulture Plantation</small></div>
+    </div>
+    <div class="seg" role="group" aria-label="Language">
+      <button id="lang-both" data-lang="both" aria-pressed="true">EN + हिं</button>
+      <button id="lang-en" data-lang="en" aria-pressed="false">English</button>
+      <button id="lang-hi" data-lang="hi" aria-pressed="false">हिंदी</button>
+    </div>
+  </header>
+
+  <!-- START: step 1 instructions → step 2 details → step 3 start -->
+  <section id="screen-start">
+    <div class="eyebrow">Post-training assessment · प्रशिक्षण-पश्चात मूल्यांकन</div>
+    <h1 class="title">Plantation Post-Test<span class="hi">वृक्षारोपण पोस्ट-टेस्ट</span></h1>
+
+    <ol class="stepper" aria-label="Steps">
+      <li id="st-1" class="on"><b>1</b><span>Instructions<br><small>निर्देश</small></span></li>
+      <li id="st-2"><b>2</b><span>Your details<br><small>आपका विवरण</small></span></li>
+      <li id="st-3"><b>3</b><span>Start test<br><small>टेस्ट शुरू</small></span></li>
+    </ol>
+
+    <div class="resume" id="resume" hidden>
+      <div><b>Unfinished test found on this device</b><br><span class="sub-hi">इस डिवाइस पर अधूरा टेस्ट मिला — जारी रखें?</span></div>
+      <button class="btn btn-warn" type="button" id="btn-resume">Continue · जारी रखें</button>
+    </div>
+
+    <!-- step 1 -->
+    <div class="panel step" id="step-1">
+      <h2><span class="t-en">Read the instructions</span><span class="t-hi sub-hi" style="font-size:.8em">निर्देश ध्यान से पढ़ें</span></h2>
+      <div class="facts">
+        <div class="fact"><b>30</b><span>questions<br>प्रश्न</span></div>
+        <div class="fact"><b>20:00</b><span>minutes<br>मिनट</span></div>
+        <div class="fact"><b>0</b><span>negative marks<br>नकारात्मक अंक</span></div>
+        <div class="fact"><b id="pass-fact">23</b><span>to pass (75%)<br>उत्तीर्ण हेतु</span></div>
+      </div>
+      <ul class="rules">
+        <li><span class="ic">1</span><div><span class="t-en">There are 30 questions. Each correct answer gets 1 mark. Wrong or blank answers get 0 — there is no negative marking.</span><span class="t-hi">कुल 30 प्रश्न हैं। हर सही उत्तर पर 1 अंक। गलत या खाली उत्तर पर 0 — कोई नकारात्मक अंक नहीं।</span></div></li>
+        <li><span class="ic">2</span><div><span class="t-en">You have 20 minutes. The timer starts when you press "Start test" and turns amber at 5 minutes and red at 2 minutes. At 00:00 the test submits by itself.</span><span class="t-hi">आपके पास 20 मिनट हैं। "टेस्ट शुरू करें" दबाते ही टाइमर चालू होगा; 5 मिनट पर पीला और 2 मिनट पर लाल होगा। 00:00 होने पर टेस्ट अपने आप जमा हो जाएगा।</span></div></li>
+        <li><span class="ic">3</span><div><span class="t-en">Some questions have one correct answer (round buttons). Some ask you to "select all correct" (square buttons) — you get the mark only if you pick every correct option.</span><span class="t-hi">कुछ प्रश्नों का एक सही उत्तर है (गोल बटन)। कुछ में "सभी सही चुनें" (चौकोर बटन) — अंक तभी मिलेगा जब सभी सही विकल्प चुनें।</span></div></li>
+        <li><span class="ic">4</span><div><span class="t-en">Every participant gets a different paper — the questions and the order of options are different for each person. Please do not discuss with others.</span><span class="t-hi">हर प्रतिभागी को अलग प्रश्न-पत्र मिलता है — प्रश्न और विकल्पों का क्रम हर व्यक्ति के लिए अलग है। कृपया किसी से चर्चा न करें।</span></div></li>
+        <li><span class="ic">5</span><div><span class="t-en">You can go back and forth, change answers and mark questions for review. Before final submission you will be asked to confirm.</span><span class="t-hi">आप आगे-पीछे जा सकते हैं, उत्तर बदल सकते हैं और प्रश्न समीक्षा हेतु चिन्हित कर सकते हैं। अंतिम जमा से पहले आपसे पुष्टि माँगी जाएगी।</span></div></li>
+        <li><span class="ic">6</span><div><span class="t-en">After submitting you will see your marks, pass/fail, and every answer with its explanation. The answer key is also sent to your email.</span><span class="t-hi">जमा करने के बाद आपको अंक, उत्तीर्ण/अनुत्तीर्ण और हर उत्तर व्याख्या सहित दिखेगा। उत्तर-कुंजी आपकी ईमेल पर भी भेजी जाएगी।</span></div></li>
+      </ul>
+      <label class="agree" for="c-read"><input type="checkbox" id="c-read"> <span><span class="t-en">I have read and understood the instructions.</span><span class="t-hi">मैंने निर्देश पढ़ और समझ लिए हैं।</span></span></label>
+      <div class="stepnav"><span></span><button class="btn btn-primary" id="btn-s1" type="button" disabled>Next: Your details · आगे →</button></div>
+    </div>
+
+    <!-- step 2 -->
+    <form class="panel step" id="reg" novalidate hidden>
+      <h2><span class="t-en">Participant details</span><span class="t-hi sub-hi" style="font-size:.8em">प्रतिभागी का विवरण</span></h2>
+      <div class="field">
+        <label for="f-name">Full name / पूरा नाम <span class="req">*</span></label>
+        <input id="f-name" name="name" autocomplete="name" required placeholder="e.g. Sunita Devi">
+        <div class="err" id="e-name"></div>
+      </div>
+      <div class="field">
+        <label for="f-email">Email / ईमेल <span class="req">*</span></label>
+        <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="name@example.com">
+        <div class="err" id="e-email"></div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label for="f-role">Designation / पद</label>
+          <input id="f-role" name="role" placeholder="BPM, JE, Bagwani Sakhi…">
+        </div>
+        <div class="field">
+          <label for="f-place">District / Block · जिला / प्रखण्ड</label>
+          <input id="f-place" name="place" placeholder="Ranchi / Namkum">
+        </div>
+      </div>
+      <div class="stepnav">
+        <button class="btn btn-ghost" id="btn-b2" type="button">← Back · पीछे</button>
+        <button class="btn btn-primary" id="btn-s2" type="submit">Next · आगे →</button>
+      </div>
+    </form>
+
+    <!-- step 3 -->
+    <div class="panel step" id="step-3" hidden>
+      <h2><span class="t-en">Ready to start</span><span class="t-hi sub-hi" style="font-size:.8em">शुरू करने के लिए तैयार</span></h2>
+      <dl class="summary" id="summary"></dl>
+      <p class="note" id="mode-note"></p>
+      <div class="startbox">
+        <span class="t-en">When you press Start, the 20-minute timer begins and cannot be paused.</span>
+        <span class="t-hi">शुरू करें दबाते ही 20 मिनट का टाइमर चालू होगा और रुकेगा नहीं।</span>
+      </div>
+      <div class="stepnav">
+        <button class="btn btn-ghost" id="btn-b3" type="button">← Edit details · विवरण बदलें</button>
+        <button class="btn btn-primary btn-go" id="btn-start" type="button">▶ Start test · टेस्ट शुरू करें</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEST -->
+  <section id="screen-test" hidden>
+    <div class="testbar">
+      <div class="testbar-in">
+        <div class="who" id="who"></div>
+        <div class="timer" id="timer" role="timer" aria-live="off">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg>
+          <span id="timer-txt">20:00</span>
+        </div>
+        <button class="btn btn-warn" id="btn-submit-top" type="button">Submit · जमा करें</button>
+      </div>
+      <div class="timeline" aria-hidden="true"><i id="timeline"></i></div>
+    </div>
+
+    <div class="testgrid">
+      <article class="qcard" id="qcard" aria-live="polite"></article>
+      <aside class="side">
+        <div class="palette">
+          <h3>Questions · प्रश्न</h3>
+          <div class="pgrid" id="pgrid"></div>
+          <div class="plegend">
+            <span><i class="a"></i>Answered · उत्तर दिया</span>
+            <span><i></i>Not answered · शेष</span>
+            <span><i class="m"></i>For review · समीक्षा</span>
+            <span><i class="c"></i>Current · वर्तमान</span>
+          </div>
+          <div class="counts">
+            <div><b id="cnt-a">0</b>Answered<br>उत्तर दिया</div>
+            <div><b id="cnt-u">30</b>Left<br>शेष</div>
+            <div><b id="cnt-m">0</b>Review<br>समीक्षा</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section id="screen-result" hidden></section>
+
+  <footer class="cred">Questions based on RDD Jharkhand BHGY booklet, BHGY guidelines 2024-25, Bagwani Sakhi policy, Kusum–Semialata and Litchi SoPs.</footer>
+</div>
+
+<div class="scrim" id="confirm" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="confirm-h">
+    <h3 id="confirm-h">Final submission · अंतिम जमा</h3>
+    <p id="confirm-body"></p>
+    <div class="warnline" id="confirm-warn" hidden></div>
+    <label class="confirm-check" for="c-final"><input type="checkbox" id="c-final"> <span>I confirm this is my final submission. I cannot change answers after this.<br><span class="sub-hi">मैं पुष्टि करता/करती हूँ कि यह मेरा अंतिम जमा है। इसके बाद उत्तर नहीं बदल सकेंगे।</span></span></label>
+    <div class="actions">
+      <button class="btn btn-ghost" id="btn-cancel" type="button">Go back to test · टेस्ट पर वापस</button>
+      <button class="btn btn-ghost" id="btn-gofirst" type="button" hidden>Go to first unanswered · पहला छूटा प्रश्न</button>
+      <button class="btn btn-primary" id="btn-confirm" type="button" disabled>Submit final answers · अंतिम जमा करें</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [{"type": "single", "q": {"en": "Birsa Harit Gram Yojana (BHGY) in Jharkhand is a plantation scheme implemented under which programme?", "hi": "झारखण्ड में बिरसा हरित ग्राम योजना (BHGY) किस कार्यक्रम के अंतर्गत चलाई जाने वाली वृक्षारोपण योजना है?"}, "opts": [{"en": "PM-KISAN", "hi": "पीएम-किसान"}, {"en": "MGNREGA / VB-G RAM G", "hi": "मनरेगा / VB-G RAM G"}, {"en": "PMAY-G (housing)", "hi": "प्रधानमंत्री आवास योजना-ग्रामीण"}, {"en": "National Horticulture Board only", "hi": "केवल राष्ट्रीय बागवानी बोर्ड"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [1], "exp": {"en": "The BHGY booklet says: the plantation scheme implemented under MGNREGA / VB-G RAM G in Jharkhand is called Birsa Harit Gram Yojana. Wages and materials for pit digging, planting and 5 years of care come from MGNREGA / VB-G RAM G.", "hi": "बागवानी पुस्तिका के अनुसार झारखण्ड में मनरेगा / VB-G RAM G अंतर्गत क्रियान्वित वृक्षारोपण की योजना को ही बिरसा हरित ग्राम योजना कहते हैं। गड्ढा खुदाई, रोपाई और 5 साल की देखभाल की मजदूरी व सामग्री मनरेगा / VB-G RAM G से मिलती है।"}, "src": "BHGY Booklet (2022), p.11"}, {"type": "single", "q": {"en": "Before it was renamed Birsa Harit Gram Yojana in FY 2020-21, the mango plantation scheme was known as:", "hi": "वित्तीय वर्ष 2020-21 में बिरसा हरित ग्राम योजना नाम रखे जाने से पहले आम बागवानी की यह योजना किस नाम से जानी जाती थी?"}, "opts": [{"en": "Birsa Munda Aam Bagwani Yojana", "hi": "बिरसा मुण्डा आम बागवानी योजना"}, {"en": "Didi Bagiya Yojana", "hi": "दीदी बगिया योजना"}, {"en": "Birsa Sinchai Koop Samvardhan Yojana", "hi": "बिरसा सिंचाई कूप संवर्धन योजना"}, {"en": "Jharkhand Horticulture Mission", "hi": "झारखण्ड बागवानी मिशन"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "A pilot of mango orchards under MGNREGA / VB-G RAM G began in 2016-17 (4 districts, 9 blocks, 32 panchayats, about 500 schemes). It was named 'Birsa Munda Aam Bagwani Yojana', and in 2020-21, with extra provisions added, it became 'Birsa Harit Gram Yojana'.", "hi": "मनरेगा / VB-G RAM G अंतर्गत आम बागवानी का पायलट 2016-17 में (4 जिले, 9 प्रखंड, 32 पंचायत, लगभग 500 योजनाएं) शुरू हुआ। इसका नाम 'बिरसा मुण्डा आम बागवानी योजना' रखा गया और 2020-21 में कुछ नए प्रावधान जोड़कर इसे 'बिरसा हरित ग्राम योजना' कहा गया।"}, "src": "Bagwani Sakhi Protsahan Niti (N) 85, 11.03.2024, section 1"}, {"type": "single", "q": {"en": "Which families can get a BHGY fruit orchard on their own land (individual scheme)?", "hi": "बिरसा हरित ग्राम योजना में अपनी जमीन पर फलदार बागवानी (व्यक्तिगत योजना) का लाभ किन परिवारों को मिल सकता है?"}, "opts": [{"en": "SC / ST / PVTG families", "hi": "अनुसूचित जाति / अनुसूचित जनजाति / आदिम जनजाति परिवार"}, {"en": "BPL families and women-headed families", "hi": "गरीबी रेखा से नीचे (BPL) और महिला प्रधान परिवार"}, {"en": "Small farmers (2.5–5 acres) and marginal farmers (up to 2.5 acres)", "hi": "लघु किसान (2.5–5 एकड़) और सीमान्त किसान (2.5 एकड़ तक)"}, {"en": "Families headed by a person with disability, and PMAY/IAY beneficiaries", "hi": "विकलांग प्रधान परिवार तथा PMAY/IAY के लाभार्थी"}, {"en": "All of these", "hi": "उपरोक्त सभी"}], "ans": [4], "exp": {"en": "All these categories are eligible for individual MGNREGA / VB-G RAM G works: SC, ST, PVTG, BPL, women-headed, disabled-headed, land-reform beneficiaries, IAY/PMAY beneficiaries, FRA beneficiaries, small and marginal farmers. The family should also depend on farming and have a job card and bank account.", "hi": "ये सभी श्रेणियां पात्र हैं: SC, ST, आदिम जनजाति, BPL, महिला प्रधान, विकलांग प्रधान, भूमि सुधार के हितग्राही, IAY/PMAY लाभार्थी, वन अधिकार अधिनियम के हितग्राही, लघु व सीमान्त किसान। साथ ही परिवार की आजीविका खेती पर आधारित हो और जॉब कार्ड व बैंक खाता हो।"}, "src": "BHGY Booklet p.12; BHGY Guidelines (N) 350, 19.03.2024"}, {"type": "single", "q": {"en": "On raiyati (own) land, what is the area limit for one family's fruit plantation?", "hi": "रैयती जमीन पर एक परिवार अधिकतम और न्यूनतम कितने क्षेत्र में फलदार बागवानी कर सकता है?"}, "opts": [{"en": "Minimum 50 decimal (25 decimal if in a patch/cluster), maximum 1 acre", "hi": "न्यूनतम 50 डिसमिल (पैच/क्लस्टर में 25 डिसमिल), अधिकतम 1 एकड़"}, {"en": "Minimum 1 acre, maximum 5 acres", "hi": "न्यूनतम 1 एकड़, अधिकतम 5 एकड़"}, {"en": "Minimum 10 decimal, maximum 2 acres", "hi": "न्यूनतम 10 डिसमिल, अधिकतम 2 एकड़"}, {"en": "Minimum 50 decimal, no upper limit", "hi": "न्यूनतम 50 डिसमिल, अधिकतम की कोई सीमा नहीं"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "If plantation is done together in a patch (cluster), one beneficiary can take at least 25 decimal; otherwise at least 50 decimal. In both cases the maximum is 1 acre.", "hi": "यदि कई लाभुक एक साथ पैच (क्लस्टर) में बागवानी करें तो एक लाभुक कम से कम 25 डिसमिल, अन्यथा कम से कम 50 डिसमिल में बागवानी कर सकता है। दोनों स्थितियों में अधिकतम सीमा 1 एकड़ है।"}, "src": "BHGY Guidelines (N) 350, p.9; BHGY Booklet p.14"}, {"type": "multi", "q": {"en": "Which of these are correct criteria for choosing land (patch) for a fruit orchard? (Select all that apply)", "hi": "फलदार बागवानी के लिए जमीन (पैच) चुनने के सही मानदंड कौन-से हैं? (सभी सही विकल्प चुनें)"}, "opts": [{"en": "Slope of land less than 8%", "hi": "जमीन की ढलान 8% से कम हो"}, {"en": "Soil depth at least 1 metre", "hi": "मिट्टी की गहराई कम से कम 1 मीटर हो"}, {"en": "A year-round irrigation source within 100 metres", "hi": "100 मीटर के अंदर साल भर सिंचाई का साधन हो"}, {"en": "Land where water collects (waterlogging) is preferred", "hi": "जहाँ पानी जमा होता है (जल जमाव) वह जमीन बेहतर है"}, {"en": "Land with many big trees and bushes is preferred", "hi": "जहाँ बड़े पेड़ और झाड़ियाँ अधिक हों वह जमीन बेहतर है"}], "ans": [0, 1, 2], "exp": {"en": "Choose land with slope below 8%, soil at least 1 m deep, irrigation within 100 m all year, no waterlogging and no legal dispute. Avoid land with many big trees or bushes — young plants lose sunlight and nutrients to them.", "hi": "ढलान 8% से कम, मिट्टी कम से कम 1 मीटर गहरी, 100 मीटर के अंदर साल भर सिंचाई, जल जमाव न हो और कोई कानूनी विवाद न हो। बड़े पेड़ व झाड़ियों वाली जमीन न चुनें — छोटे पौधों को धूप और पोषण नहीं मिलता।"}, "src": "BHGY Guidelines (N) 350, p.10; BHGY Booklet p.13"}, {"type": "single", "q": {"en": "In the BHGY mango plantation model for 1 acre, how many plants are planted in total?", "hi": "बिरसा हरित ग्राम योजना के 1 एकड़ आम बागवानी मॉडल में कुल कितने पौधे लगाए जाते हैं?"}, "opts": [{"en": "100 plants", "hi": "100 पौधे"}, {"en": "150 plants", "hi": "150 पौधे"}, {"en": "192 plants", "hi": "192 पौधे"}, {"en": "260 plants", "hi": "260 पौधे"}, {"en": "400 plants", "hi": "400 पौधे"}], "ans": [2], "exp": {"en": "1 acre = 192 plants: 112 mango inside the plot and 80 timber/fodder plants along the border. Estimated cost is about ₹3.40 lakh, with 6 jalkunds per acre.", "hi": "1 एकड़ = 192 पौधे: अंदर 112 आम और किनारे (बॉर्डर) पर 80 इमारती/चारा पौधे। अनुमानित लागत लगभग ₹3.40 लाख है और प्रति एकड़ 6 जलकुंड बनते हैं।"}, "src": "BHGY Booklet p.14"}, {"type": "single", "q": {"en": "What is the plant-to-plant distance between two mango plants in the BHGY layout?", "hi": "बिरसा हरित ग्राम योजना के ले-आउट में आम के एक पौधे से दूसरे पौधे की दूरी कितनी होती है?"}, "opts": [{"en": "3 m × 3 m", "hi": "3 मीटर × 3 मीटर"}, {"en": "5 m × 5 m", "hi": "5 मीटर × 5 मीटर"}, {"en": "8 m × 8 m", "hi": "8 मीटर × 8 मीटर"}, {"en": "10 m × 10 m", "hi": "10 मीटर × 10 मीटर"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [1], "exp": {"en": "Mango (Amrapali/Mallika) is planted at 5 m × 5 m. In mixed orchards mango and guava are planted one after another, also at 5 × 5 m.", "hi": "आम (आम्रपाली/मल्लिका) 5 मीटर × 5 मीटर पर लगाया जाता है। मिश्रित बागवानी में आम और अमरूद एक के बाद एक, 5 × 5 मीटर पर ही लगते हैं।"}, "src": "BHGY Booklet pp.15–17"}, {"type": "single", "q": {"en": "What is the pit size for a fruit plant (mango, guava) in BHGY?", "hi": "फलदार पौधे (आम, अमरूद) के लिए गड्ढे का आकार क्या होता है?"}, "opts": [{"en": "1 ft × 1 ft × 1 ft", "hi": "1 फीट × 1 फीट × 1 फीट"}, {"en": "2 ft × 2 ft × 2 ft", "hi": "2 फीट × 2 फीट × 2 फीट"}, {"en": "3 ft × 3 ft × 3 ft", "hi": "3 फीट × 3 फीट × 3 फीट"}, {"en": "4 ft × 4 ft × 4 ft", "hi": "4 फीट × 4 फीट × 4 फीट"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [2], "exp": {"en": "Fruit plant pit = 3 × 3 × 3 ft. Timber/border plant pit = 2 × 2 × 2 ft.", "hi": "फलदार पौधे का गड्ढा = 3 × 3 × 3 फीट। इमारती/बॉर्डर पौधे का गड्ढा = 2 × 2 × 2 फीट।"}, "src": "BHGY Booklet pp.15–16"}, {"type": "single", "q": {"en": "Timber plants are planted along the orchard border. How far inside the ridge (medh) and at what spacing?", "hi": "इमारती पौधे बागान के किनारे लगाए जाते हैं। ये मेढ़ से कितनी दूरी पर और आपस में कितनी दूरी पर लगते हैं?"}, "opts": [{"en": "2.5 m inside the ridge, 3 m apart", "hi": "मेढ़ से 2.5 मीटर अंदर, आपस में 3 मीटर"}, {"en": "1 m inside the ridge, 5 m apart", "hi": "मेढ़ से 1 मीटर अंदर, आपस में 5 मीटर"}, {"en": "5 m inside the ridge, 5 m apart", "hi": "मेढ़ से 5 मीटर अंदर, आपस में 5 मीटर"}, {"en": "7.5 m inside the ridge, 3 m apart", "hi": "मेढ़ से 7.5 मीटर अंदर, आपस में 3 मीटर"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Timber line: 2.5 m inside the ridge, plants 3 m apart. The first mango line is 7.5 m from the ridge, i.e. 5 m inside the timber line.", "hi": "इमारती पौधों की लाइन मेढ़ से 2.5 मीटर अंदर, पौधों के बीच 3 मीटर। आम की पहली लाइन मेढ़ से 7.5 मीटर, यानी इमारती लाइन से 5 मीटर अंदर होती है।"}, "src": "BHGY Booklet pp.15, 19"}, {"type": "single", "q": {"en": "During layout, the '3-4-5 rule' is used for:", "hi": "ले-आउट के समय '3-4-5 नियम' का उपयोग किसलिए किया जाता है?"}, "opts": [{"en": "Measuring pit depth", "hi": "गड्ढे की गहराई मापने के लिए"}, {"en": "Making a 90° (right) angle so lines are straight", "hi": "90° (समकोण) बनाने के लिए ताकि लाइन सीधी रहे"}, {"en": "Counting the number of plants", "hi": "पौधों की संख्या गिनने के लिए"}, {"en": "Deciding the fertilizer dose", "hi": "खाद की मात्रा तय करने के लिए"}, {"en": "All of these", "hi": "उपरोक्त सभी"}], "ans": [1], "exp": {"en": "Mark 3 m, 7 m and 12 m on a measuring tape and join the 0 and 12 m points: sides of 3, 4 and 5 m make a right angle. This keeps plant rows straight and spacing equal.", "hi": "फीते पर 3 मीटर, 7 मीटर और 12 मीटर पर निशान लगाएं और 0 व 12 मीटर वाले बिंदु मिलाएं: 3, 4 और 5 मीटर की भुजाओं से समकोण बनता है। इससे पौधों की कतारें सीधी और दूरी बराबर रहती है।"}, "src": "BHGY Booklet p.19; Litchi SoP p.7"}, {"type": "multi", "q": {"en": "Which are correct practices for pit digging and pit filling? (Select all that apply)", "hi": "गड्ढा खुदाई और गड्ढा भराई के सही तरीके कौन-से हैं? (सभी सही विकल्प चुनें)"}, "opts": [{"en": "Keep the top 1 ft soil separate from the lower 2 ft soil", "hi": "ऊपर की 1 फीट मिट्टी को नीचे की 2 फीट मिट्टी से अलग रखें"}, {"en": "Leave the dug pit open in the sun for 20–30 days", "hi": "खुदे गड्ढे को 20–30 दिन खुली धूप में छोड़ दें"}, {"en": "While filling, put the top soil in first", "hi": "भराई के समय ऊपर वाली मिट्टी पहले डालें"}, {"en": "Use the stones that come out of the pit for filling", "hi": "गड्ढे से निकले पत्थरों को भराई में उपयोग करें"}, {"en": "Fill the pits only after the rainy season ends", "hi": "गड्ढे की भराई बरसात खत्म होने के बाद ही करें"}], "ans": [0, 1, 2], "exp": {"en": "Keep top 1 ft soil separately, remove stones, leave the pit in the sun for 20–30 days (sunlight kills germs and lets air in), then fill top soil first, mixed with compost, before the rains. Fill up to 1 ft above ground and fix a stick in the centre.", "hi": "ऊपरी 1 फीट मिट्टी अलग रखें, पत्थर निकाल दें, गड्ढे को 20–30 दिन धूप में छोड़ें (धूप से कीटाणु नष्ट होते हैं और हवा मिलती है), फिर बरसात से पहले खाद मिलाकर ऊपर वाली मिट्टी पहले भरें। भराई जमीन से 1 फीट ऊँचाई तक करें और बीच में डंडा गाड़ दें।"}, "src": "BHGY Booklet pp.20–21"}, {"type": "single", "q": {"en": "If Trichoderma-enriched compost has been applied at planting, which fungicide should be put in the root-zone soil?", "hi": "यदि रोपाई के समय ट्राईकोडर्मा युक्त खाद डाली गई है, तो जड़ की मिट्टी में कौन-सा फफूंदनाशक डालना चाहिए?"}, "opts": [{"en": "Copper oxychloride", "hi": "कॉपर ऑक्सीक्लोराइड"}, {"en": "Chlorothalonil", "hi": "क्लोरोथलोनिल"}, {"en": "Carbendazim", "hi": "कार्बेन्डाजिम"}, {"en": "Blue copper", "hi": "ब्लू कॉपर"}, {"en": "None of these — no fungicide should be used in the root soil", "hi": "इनमें से कोई नहीं — जड़ की मिट्टी में फफूंदनाशक नहीं डालना है"}], "ans": [4], "exp": {"en": "Trichoderma is a friendly fungus that protects roots from soil-borne fungal disease. A chemical fungicide would kill it, so when Trichoderma compost is used, do not apply fungicide to the root soil.", "hi": "ट्राईकोडर्मा एक मित्र फफूंद है जो जड़ों को मिट्टी जनित फफूंद रोग से बचाता है। रासायनिक फफूंदनाशक इसे भी मार देगा, इसलिए ट्राईकोडर्मा युक्त खाद डालने पर जड़ की मिट्टी में फफूंदनाशक का प्रयोग न करें।"}, "src": "BHGY Booklet p.21; Litchi SoP p.9"}, {"type": "single", "q": {"en": "What are the standard dimensions of a Cattle Proof Trench (CPT) in BHGY?", "hi": "बिरसा हरित ग्राम योजना में पशु रोधक खाई (CPT) का मानक आकार क्या है?"}, "opts": [{"en": "6 ft wide at top, 3 ft at bottom, 4 ft deep", "hi": "ऊपर 6 फीट चौड़ी, नीचे 3 फीट, 4 फीट गहरी"}, {"en": "3 ft at top, 6 ft at bottom, 2 ft deep", "hi": "ऊपर 3 फीट, नीचे 6 फीट, 2 फीट गहरी"}, {"en": "4 ft × 4 ft × 4 ft", "hi": "4 फीट × 4 फीट × 4 फीट"}, {"en": "6 ft at top, 6 ft at bottom, 6 ft deep", "hi": "ऊपर 6 फीट, नीचे 6 फीट, 6 फीट गहरी"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "CPT: top width 6 ft, bottom 3 ft, depth 4 ft (cross-section 18 sq ft). Each trench is 9 ft long (3 person-days), then a 1 ft 'equalizer' is left before the next one. Near a village it is dug inside the fencing so children do not fall in.", "hi": "CPT: ऊपर 6 फीट, नीचे 3 फीट, गहराई 4 फीट (18 वर्ग फीट)। एक खाई 9 फीट लम्बी (3 मानव दिवस), फिर 1 फीट 'इक्वलाइजर' छोड़कर अगली खाई। गाँव के पास बागान हो तो खाई घेरान के अंदर बनाते हैं ताकि बच्चे न गिरें।"}, "src": "BHGY Booklet p.26"}, {"type": "single", "q": {"en": "Which statement about live fencing (jinda gheran) under MGNREGA / VB-G RAM G is correct?", "hi": "मनरेगा / VB-G RAM G अंतर्गत जिन्दा घेरान के बारे में कौन-सा कथन सही है?"}, "opts": [{"en": "5 ft high; 1 person-day per 20 ft; ₹8 per ft for material", "hi": "5 फीट ऊँचा; प्रति 20 फीट पर 1 मानव-दिवस; सामग्री हेतु ₹8 प्रति फीट"}, {"en": "3 ft high; 1 person-day per 10 ft; ₹5 per ft", "hi": "3 फीट ऊँचा; प्रति 10 फीट पर 1 मानव-दिवस; ₹5 प्रति फीट"}, {"en": "6 ft high; 1 person-day per 50 ft; ₹10 per ft", "hi": "6 फीट ऊँचा; प्रति 50 फीट पर 1 मानव-दिवस; ₹10 प्रति फीट"}, {"en": "5 ft high; no material cost is allowed", "hi": "5 फीट ऊँचा; सामग्री का कोई खर्च नहीं मिलता"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Live fencing uses a bamboo frame with local shrubs that take root (e.g. lantana/putus, sindwar). It is 5 ft high on the outer boundary; 1 person-day is paid for every 20 ft and ₹8 per running foot for material. Plants are placed 2.5 m from the fence.", "hi": "जिन्दा घेरान में बांस के ढांचे के साथ स्थानीय झाड़ियाँ (पुटुस, सिन्दवार आदि) लगाई जाती हैं जो जड़ पकड़ लें। बाहरी सीमा पर 5 फीट ऊँचा घेरान; प्रति 20 फीट पर 1 मानव-दिवस और सामग्री हेतु ₹8 प्रति फीट। पौधे घेरान से 2.5 मीटर दूरी पर लगते हैं।"}, "src": "BHGY Booklet p.25"}, {"type": "multi", "q": {"en": "Which statements about the jalkund (small water tank) are correct? (Select all that apply)", "hi": "जलकुंड के बारे में कौन-से कथन सही हैं? (सभी सही विकल्प चुनें)"}, "opts": [{"en": "Size is 3 m long × 1.5 m wide × 1 m deep", "hi": "आकार 3 मीटर लम्बा × 1.5 मीटर चौड़ा × 1 मीटर गहरा"}, {"en": "It is lined with UV-stabilised black polythene sheet", "hi": "इसमें UV-स्टेबलाइज्ड काली पॉलीथीन शीट बिछाई जाती है"}, {"en": "It can store up to about 4,000 litres of water", "hi": "इसमें लगभग 4,000 लीटर तक पानी जमा हो सकता है"}, {"en": "6 jalkunds are made per acre (1 for every 30–40 plants)", "hi": "प्रति एकड़ 6 जलकुंड बनते हैं (हर 30–40 पौधों पर 1)"}, {"en": "Only 1 jalkund is made for 4 acres", "hi": "4 एकड़ पर केवल 1 जलकुंड बनता है"}], "ans": [0, 1, 2, 3], "exp": {"en": "Jalkund: 3 × 1.5 × 1 m (10 × 5 × 3 ft), lined with 6 kg (250 thick) UV-stabilised black polythene sheet, holds up to 4,000 L. 6 per acre, i.e. one for 30–40 plants. It is covered after the rains to reduce evaporation.", "hi": "जलकुंड: 3 × 1.5 × 1 मीटर (10 × 5 × 3 फीट), 6 किलो (250 थिक) UV-स्टेबलाइज्ड काली पॉलीथीन शीट, 4,000 लीटर तक पानी। प्रति एकड़ 6, यानी 30–40 पौधों पर एक। बरसात के बाद वाष्पीकरण रोकने के लिए ढक दिया जाता है।"}, "src": "BHGY Booklet p.28"}, {"type": "single", "q": {"en": "Read the statements about intercropping (crops inside the orchard):\n(i) The intercrop should not grow taller than the fruit plant.\n(ii) Creeper crops should not be allowed to climb on fruit plants.\n(iii) Intercropping increases the death rate of fruit plants.\nWhich are correct?", "hi": "अंतःफसल (बागान के अंदर खेती) के बारे में कथन पढ़ें:\n(i) अंतःफसल की ऊँचाई फलदार पौधे से ज्यादा नहीं होनी चाहिए।\n(ii) लत्तर वाली फसल को फलदार पौधों पर नहीं चढ़ाना चाहिए।\n(iii) अंतःफसल से फलदार पौधों की मृत्यु-दर बढ़ती है।\nकौन-से कथन सही हैं?"}, "opts": [{"en": "Only (i)", "hi": "केवल (i)"}, {"en": "Only (ii)", "hi": "केवल (ii)"}, {"en": "Only (i) and (ii)", "hi": "केवल (i) और (ii)"}, {"en": "All of (i), (ii) and (iii)", "hi": "(i), (ii) और (iii) सभी"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [2], "exp": {"en": "(i) and (ii) are rules in the booklet. (iii) is wrong: orchards with intercropping had very low plant death, because farmers visit daily and the manure, water and care given to the crop also reach the fruit plants.", "hi": "(i) और (ii) पुस्तिका के नियम हैं। (iii) गलत है: जिन बागानों में अंतःफसल हुई उनमें पौधों की मृत्यु-दर बहुत कम पाई गई, क्योंकि किसान रोज आता है और फसल को दी गई खाद, पानी व देखभाल फलदार पौधों को भी मिलती है।"}, "src": "BHGY Booklet p.29; BHGY Guidelines (N) 350"}, {"type": "multi", "q": {"en": "As per the BHGY guidelines, which of these are listed as WINTER-season (Rabi) intercrops? (Select all that apply)", "hi": "बिरसा हरित ग्राम योजना मार्गदर्शिका के अनुसार इनमें से कौन-सी शीत ऋतु (रबी) की अंतःफसल हैं? (सभी सही विकल्प चुनें)"}, "opts": [{"en": "Cauliflower", "hi": "फूलगोभी"}, {"en": "Peas", "hi": "मटर"}, {"en": "Potato", "hi": "आलू"}, {"en": "Turmeric", "hi": "हल्दी"}, {"en": "Watermelon", "hi": "तरबूज"}], "ans": [0, 1, 2], "exp": {"en": "Winter: cauliflower, cabbage, broccoli, tomato, peas, potato, coriander, spinach, carrot, radish, onion, garlic etc. Turmeric and ginger are rainy-season crops; watermelon, bitter gourd and okra are summer crops.", "hi": "शीत ऋतु: फूलगोभी, बंधगोभी, ब्रोकोली, टमाटर, मटर, आलू, धनिया, पालक, गाजर, मूली, प्याज, लहसुन आदि। हल्दी और अदरक वर्षा ऋतु की फसल हैं; तरबूज, करैला, भिण्डी ग्रीष्म ऋतु की।"}, "src": "BHGY Guidelines (N) 350, 19.03.2024 — intercrop table"}, {"type": "single", "q": {"en": "Which is the correct sequence of the three phases of BHGY plantation work?", "hi": "बिरसा हरित ग्राम योजना वृक्षारोपण के तीन चरणों का सही क्रम कौन-सा है?"}, "opts": [{"en": "Advance work (Year 1: layout, pit digging, CPT, NADEP, tenders) → Completion work (Year 2: fencing, pit filling, planting) → Maintenance (Years 3–5)", "hi": "एडवांस कार्य (प्रथम वर्ष: ले-आउट, गड्ढा खुदाई, CPT, नाडेप, निविदा) → कम्प्लीशन कार्य (द्वितीय वर्ष: घेरान, गड्ढा भराई, रोपण) → रख-रखाव (तृतीय से पंचम वर्ष)"}, {"en": "All work, including maintenance, is finished in one year", "hi": "रख-रखाव सहित सारा काम एक ही वर्ष में पूरा"}, {"en": "Planting in Year 1, pit digging in Year 2", "hi": "प्रथम वर्ष रोपण, द्वितीय वर्ष गड्ढा खुदाई"}, {"en": "Advance work → Completion work, with no maintenance after planting", "hi": "एडवांस कार्य → कम्प्लीशन कार्य, रोपण के बाद कोई रख-रखाव नहीं"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Advance work must be completed by March of Year 1. Year 2 is the Completion year (fencing, pit filling, planting, H-stake, weeding, intercrop, manure). Years 3–5 are Maintenance (fence repair, pruning, manure, irrigation, pest control, removing flowers).", "hi": "एडवांस कार्य प्रथम वर्ष मार्च तक पूरा करना है। द्वितीय वर्ष कम्प्लीशन वर्ष है (घेरान, गड्ढा भराई, रोपण, H-टेका, निकाई, अंतःफसल, खाद)। तृतीय से पंचम वर्ष रख-रखाव (घेरान मरम्मत, कटाई-छँटाई, खाद, सिंचाई, कीट नियंत्रण, मंजर तोड़ना)।"}, "src": "BHGY Guidelines (N) 350, p.2"}, {"type": "single", "q": {"en": "According to the BHGY activity calendar, planting of saplings should be completed during:", "hi": "बिरसा हरित ग्राम योजना की समय-सारणी के अनुसार पौधा रोपण का कार्य कब तक पूरा करना है?"}, "opts": [{"en": "January – February", "hi": "जनवरी – फरवरी"}, {"en": "April – May", "hi": "अप्रैल – मई"}, {"en": "15 June to 15 July (after the rains begin)", "hi": "15 जून से 15 जुलाई (वर्षा आरम्भ होने पर)"}, {"en": "October – November", "hi": "अक्टूबर – नवम्बर"}, {"en": "Any time of the year", "hi": "साल में कभी भी"}], "ans": [2], "exp": {"en": "Pits and fencing should be ready by end of April/May. Planting is done from 15 June to 15 July once the rains start and the soil is moist; the H-stake is fixed by July.", "hi": "गड्ढा और घेरान अप्रैल/मई तक तैयार हो। वर्षा आरम्भ होने और मिट्टी में नमी आने पर 15 जून से 15 जुलाई तक रोपण पूरा करें; जुलाई तक H-टेका लगा दें।"}, "src": "BHGY Guidelines (N) 350, timeline item 19"}, {"type": "single", "q": {"en": "In the early years of a young mango orchard, what should be done with the flowers (manjar) that appear?", "hi": "नए आम बागान के शुरुआती वर्षों में जो मंजर (फूल) आते हैं, उनके साथ क्या करना चाहिए?"}, "opts": [{"en": "Leave them so the plant gives fruit early", "hi": "छोड़ दें ताकि पौधा जल्दी फल दे"}, {"en": "Remove them by crushing with the hand", "hi": "हाथ से मसलकर हटा दें"}, {"en": "Spray urea on them", "hi": "उन पर यूरिया का छिड़काव करें"}, {"en": "Cover them with a polythene bag", "hi": "उन्हें पॉलीथीन से ढक दें"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [1], "exp": {"en": "The monthly calendar says to crush the manjar by hand in the early years. This lets the young plant put its energy into growing a strong frame instead of fruit.", "hi": "मासिक कार्य-सारणी के अनुसार शुरुआती वर्षों में मंजर को हाथ से मसलकर हटाना है। इससे छोटा पौधा फल की जगह अपनी ताकत मजबूत ढांचा बनाने में लगाता है।"}, "src": "BHGY Booklet pp.50, 53"}, {"type": "multi", "q": {"en": "Which statements about mulching are correct? (Select all that apply)", "hi": "मल्चिंग के बारे में कौन-से कथन सही हैं? (सभी सही विकल्प चुनें)"}, "opts": [{"en": "It keeps moisture in the basin for longer in summer", "hi": "गर्मी में थाले में नमी अधिक समय तक बनी रहती है"}, {"en": "The mulch decomposes and works as manure", "hi": "मल्च सड़कर खाद का काम करता है"}, {"en": "Dry mulch should be pressed against the stem", "hi": "सूखी मल्च को तने से सटाकर रखना चाहिए"}, {"en": "Green leaves/grass can be used; if not available, dry grass or stones", "hi": "हरी पत्ती/घास का प्रयोग करें; न हो तो सूखी घास या पत्थर भी"}, {"en": "Mulching should never be done in summer", "hi": "गर्मी में मल्चिंग कभी नहीं करनी चाहिए"}], "ans": [0, 1, 3], "exp": {"en": "Mulch the basin ring with green leaves or grass (or dry grass/stones). It saves moisture and later becomes manure. Keep dry mulch away from the stem — touching the stem invites termites; spray termiticide if termites appear.", "hi": "थाले की रिंग में हरी पत्ती या घास (या सूखी घास/पत्थर) से मल्च करें। इससे नमी बचती है और बाद में यह खाद बनता है। सूखी मल्च तने से न सटाएं — इससे दीमक लगने का खतरा होता है; दीमक दिखने पर दीमकनाशक का छिड़काव करें।"}, "src": "BHGY Booklet p.33"}, {"type": "single", "q": {"en": "How often should a first-year plant be irrigated in the summer season?", "hi": "पहले वर्ष के पौधे को गर्मी के मौसम में कितने अंतराल पर सिंचाई करनी चाहिए?"}, "opts": [{"en": "Every 2–3 days", "hi": "हर 2–3 दिन में"}, {"en": "Once a month", "hi": "महीने में एक बार"}, {"en": "Every 10 days", "hi": "हर 10 दिन में"}, {"en": "No irrigation is needed", "hi": "सिंचाई की आवश्यकता नहीं"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "In the first year roots are small, so irrigate every 2–3 days in summer. Plants aged 2–5 years need water every 3–4 days in summer. Irrigation in winter also reduces frost damage.", "hi": "पहले वर्ष में जड़ें कम विकसित होती हैं, इसलिए गर्मी में हर 2–3 दिन पर सिंचाई करें। 2 से 5 वर्ष के पौधों को गर्मी में 3–4 दिन के अंतराल पर पानी दें। ठंड में सिंचाई से पाले का नुकसान भी कम होता है।"}, "src": "BHGY Booklet p.34"}, {"type": "single", "q": {"en": "Anthracnose, which attacks new leaves, twigs and fruits of mango, is:", "hi": "आम की नई पत्तियों, टहनियों और फलों पर लगने वाला एन्थ्रेक्नोज रोग क्या है?"}, "opts": [{"en": "An insect pest, controlled by neem oil only", "hi": "एक कीट, केवल नीम तेल से नियंत्रण"}, {"en": "A fungal disease, controlled by copper fungicide (blue copper) or chlorothalonil", "hi": "एक फफूंद जनित रोग, कॉपर फफूंदनाशक (ब्लू कॉपर) या क्लोरोथलोनिल से नियंत्रण"}, {"en": "A viral disease with no control", "hi": "एक विषाणु रोग, जिसका कोई उपचार नहीं"}, {"en": "A shortage of water", "hi": "पानी की कमी"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [1], "exp": {"en": "Anthracnose is a fungal disease. Spray a copper fungicide such as blue copper (3 g/L) or chlorothalonil (1 g/L). The calendar recommends this spray in October–January.", "hi": "एन्थ्रेक्नोज फफूंद जनित रोग है। ब्लू कॉपर (3 ग्राम/ली) या क्लोरोथलोनिल (1 ग्राम/ली) जैसे फफूंदनाशक का छिड़काव करें। कार्य-सारणी में अक्टूबर से जनवरी में यह छिड़काव बताया गया है।"}, "src": "BHGY Booklet pp.46, 53"}, {"type": "single", "q": {"en": "Who chairs the village/tola level Plantation User Group (PUG) under BHGY?", "hi": "बिरसा हरित ग्राम योजना में गाँव/टोला स्तरीय वृक्षारोपण लाभुक समिति (PUG) की अध्यक्षता कौन करता है?"}, "opts": [{"en": "Mukhiya", "hi": "मुखिया"}, {"en": "Ward member of that ward", "hi": "संबंधित वार्ड के वार्ड सदस्य"}, {"en": "Block Development Officer", "hi": "प्रखण्ड विकास पदाधिकारी"}, {"en": "Bagwani Sakhi", "hi": "बागवानी सखी"}, {"en": "Gram Rozgar Sevak", "hi": "ग्राम रोजगार सेवक"}], "ans": [1], "exp": {"en": "After schemes are sanctioned, all beneficiaries form a PUG, chaired by the ward member. The ward member raises the group's problems in the monthly Panchayat Executive Committee meeting, with support from the Bagwani Sakhi.", "hi": "योजनाओं की स्वीकृति के बाद सभी लाभुकों की वृक्षारोपण लाभुक समिति (PUG) बनती है, जिसकी अध्यक्षता वार्ड सदस्य करते हैं। वार्ड सदस्य समूह की समस्याओं को 'पंचायत कार्यकारिणी समिति' की मासिक बैठक में रखते हैं; बागवानी सखी सहयोग करती है।"}, "src": "BHGY Guidelines (N) 350, p.10"}, {"type": "single", "q": {"en": "As per the Bagwani Sakhi policy, what is the minimum education, and how much orchard area does one Bagwani Sakhi support?", "hi": "बागवानी सखी प्रोत्साहन नीति के अनुसार न्यूनतम शैक्षणिक योग्यता क्या है और एक बागवानी सखी कितने बागवानी क्षेत्र में सहयोग करती है?"}, "opts": [{"en": "Class 8 pass; at least 5 acres (up to 10 acres if schemes are in patches)", "hi": "आठवीं पास; कम से कम 5 एकड़ (पैच में योजना हो तो 10 एकड़ तक)"}, {"en": "Class 10 pass; 20 acres", "hi": "दसवीं पास; 20 एकड़"}, {"en": "Graduate; 1 acre", "hi": "स्नातक; 1 एकड़"}, {"en": "No education needed; 50 acres", "hi": "कोई योग्यता नहीं; 50 एकड़"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "A Bagwani Sakhi should be at least Class 8 pass. She supports at least 5 acres of orchard; if schemes are in patches she can cover up to 10 acres. If the area is under 5 acres, payment is in proportion to the work.", "hi": "बागवानी सखी कम से कम आठवीं वर्ग उत्तीर्ण हो। वह कम से कम 5 एकड़ बागवानी में सहयोग करेगी; योजनाएं पैच में हों तो 10 एकड़ तक। क्षेत्र 5 एकड़ से कम हो तो कार्य के अनुरूप भुगतान होगा।"}, "src": "Bagwani Sakhi Protsahan Niti (N) 85, sections 3 and 4.1"}, {"type": "multi", "q": {"en": "Which are selection criteria for a Bagwani Sakhi? (Select all that apply)", "hi": "बागवानी सखी के चयन के मापदंड कौन-से हैं? (सभी सही विकल्प चुनें)"}, "opts": [{"en": "She is a didi linked with a Sakhi Mandal (SHG)", "hi": "वह सखी मण्डल (SHG) से जुड़ी दीदी हो"}, {"en": "She can use a smartphone for training material and updates", "hi": "वह स्मार्टफोन से प्रशिक्षण सामग्री देख सके और काम अद्यतन कर सके"}, {"en": "She lives in the same panchayat", "hi": "वह उसी पंचायत की निवासी हो"}, {"en": "She must be a government employee", "hi": "वह सरकारी कर्मचारी हो"}, {"en": "Preference if she has 3+ years' experience in horticulture/farming", "hi": "बागवानी/कृषि में 3 वर्ष या अधिक अनुभव हो तो प्राथमिकता"}], "ans": [0, 1, 2, 4], "exp": {"en": "Criteria: SHG didi, Class 8 pass, willing; can use a smartphone; resident of the same panchayat. Preference for 3+ years' experience, a family orchard, and MGNREGA / VB-G RAM G work in the last 3 years. She is a community cadre, not a government employee.", "hi": "मापदंड: सखी मण्डल की दीदी, आठवीं पास, इच्छुक; स्मार्टफोन चला सके; उसी पंचायत की निवासी। 3 वर्ष अनुभव, परिवार में बागवानी योजना और पिछले 3 वर्ष से मनरेगा / VB-G RAM G मजदूरी करने वाली दीदी को प्राथमिकता। वह सामुदायिक कैडर है, सरकारी कर्मचारी नहीं।"}, "src": "Bagwani Sakhi Protsahan Niti (N) 85, section 4.1"}, {"type": "single", "q": {"en": "As per the BHGY booklet, a Bagwani Sakhi/Mitra gets the full honorarium only when plant survival is:", "hi": "BHGY पुस्तिका के अनुसार बागवानी सखी/मित्र को पूरा मानदेय तभी मिलेगा जब पौधों की उत्तरजीविता हो:"}, "opts": [{"en": "More than 50%", "hi": "50% से अधिक"}, {"en": "More than 70%", "hi": "70% से अधिक"}, {"en": "More than 90%", "hi": "90% से अधिक"}, {"en": "Exactly 100%", "hi": "पूरे 100%"}, {"en": "Survival does not matter", "hi": "उत्तरजीविता से कोई संबंध नहीं"}], "ans": [2], "exp": {"en": "The booklet links honorarium to plant survival: full honorarium only if more than 90% of plants survive. The work is recorded in the form and verified by the Panchayat Secretary/Rozgar Sevak and Mukhiya. (The 2024 Bagwani Sakhi policy moves payment to JSLPS under DAY-NRLM norms.)", "hi": "पुस्तिका के अनुसार मानदेय पौधों की उत्तरजीविता पर आधारित है: 90% से अधिक पौधे जीवित रहने पर ही पूरा मानदेय। कार्य प्रपत्र में भरकर पंचायत सचिव/रोजगार सेवक व मुखिया सत्यापित करते हैं। (2024 की बागवानी सखी नीति में भुगतान JSLPS द्वारा DAY-NRLM मार्गदर्शिका अनुसार है।)"}, "src": "BHGY Booklet p.56"}, {"type": "single", "q": {"en": "For plantation on Gair Majarua (GM / common) land under BHGY, which is correct?", "hi": "गैर-मजरूआ (GM / सामुदायिक) जमीन पर बिरसा हरित ग्राम योजना के वृक्षारोपण के लिए कौन-सा सही है?"}, "opts": [{"en": "One unit = 100 plants; usufruct right (bhogadhikar) to ultra-poor families; at least 10 units per village", "hi": "एक यूनिट = 100 पौधे; अति-गरीब परिवारों को भोगाधिकार (Usufruct right); एक गाँव में कम से कम 10 यूनिट"}, {"en": "One unit = 500 plants; land ownership is transferred to the family", "hi": "एक यूनिट = 500 पौधे; जमीन का मालिकाना हक परिवार को"}, {"en": "One unit = 50 plants; only timber plants", "hi": "एक यूनिट = 50 पौधे; केवल इमारती पौधे"}, {"en": "GM land plantation is not allowed", "hi": "GM जमीन पर वृक्षारोपण की अनुमति नहीं"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "A GM-land unit has 100 plants (24 mango, 24 guava, 22 timber/fodder, 25 lemon, 5 drumstick). Usufruct right is given to ultra-poor SC/ST/landless/PVTG families (or the Gram Panchayat) — not land ownership. At least 10 units per village.", "hi": "GM जमीन की एक यूनिट में 100 पौधे (24 आम, 24 अमरूद, 22 इमारती/चारा, 25 नीम्बू, 5 सहजन)। अति-गरीब SC/ST/भूमिहीन/आदिम जनजाति परिवार (या ग्राम पंचायत) को भोगाधिकार मिलता है — जमीन का मालिकाना हक नहीं। एक गाँव में कम से कम 10 यूनिट।"}, "src": "BHGY Guidelines (N) 350, pp.3–4, 9"}, {"type": "multi", "q": {"en": "Which statements about Kusum and Semialata plantation for lac are correct? (Select all that apply)", "hi": "लाख उत्पादन हेतु कुसुम और सेमियालता वृक्षारोपण के बारे में कौन-से कथन सही हैं? (सभी सही विकल्प चुनें)"}, "opts": [{"en": "Semialata is a legume; its roots store nitrogen in the soil", "hi": "सेमियालता दलहन कुल का है; इसकी जड़ें मिट्टी में नाइट्रोजन संचित करती हैं"}, {"en": "A Semialata plantation is ready for lac in about one year", "hi": "सेमियालता का बागान लगभग एक वर्ष में लाख खेती हेतु तैयार हो जाता है"}, {"en": "Lac can be produced on Kusum about 6 years after planting", "hi": "कुसुम वृक्षारोपण के लगभग 6 वर्ष बाद लाख उत्पादन किया जा सकता है"}, {"en": "Rangeeni lac insects can be reared on Kusum", "hi": "कुसुम पर रंगीनी लाख कीट का पालन किया जा सकता है"}, {"en": "The Kusum-Semialata scheme under BHGY runs for 5 years", "hi": "BHGY में कुसुम-सेमियालता योजना की अवधि 5 वर्ष है"}], "ans": [0, 1, 2], "exp": {"en": "Semialata (a legume that fixes nitrogen) is ready for lac within a year. Kusum gives lac about 6 years after planting and is used for Kusmi lac — Rangeeni lac cannot be reared on it. The BHGY Kusum-Semialata scheme is for 2 years (1 acre: 40 Kusum + 2,044 Semialata + 40 timber).", "hi": "सेमियालता (दलहन कुल, नाइट्रोजन संचित करता है) एक वर्ष में लाख हेतु तैयार होता है। कुसुम पर लगभग 6 वर्ष बाद लाख उत्पादन होता है और इस पर कुसमी लाख पलता है — रंगीनी लाख नहीं। BHGY में कुसुम-सेमियालता योजना 2 वर्ष की है (1 एकड़: 40 कुसुम + 2,044 सेमियालता + 40 इमारती)।"}, "src": "Kusum & Semialata letter (N) 1075, pp.1–7"}, {"type": "single", "q": {"en": "About litchi mixed plantation under BHGY:\n(i) Litchi is chosen only in the mixed model, because it is a large tree species.\n(ii) Jharkhand litchi reaches the market 8–10 days before Muzaffarpur litchi.\n(iii) Litchi plantation can be done without any irrigation source.\nWhich are correct?", "hi": "BHGY अंतर्गत लीची मिश्रित बागवानी के बारे में:\n(i) बड़े प्रजाति का पौधा होने के कारण लीची को केवल मिश्रित बागवानी मॉडल में चुना जाता है।\n(ii) झारखण्ड की लीची मुजफ्फरपुर की लीची से 8–10 दिन पहले बाजार में आती है।\n(iii) लीची बागवानी बिना सिंचाई साधन के भी की जा सकती है।\nकौन-से कथन सही हैं?"}, "opts": [{"en": "Only (i)", "hi": "केवल (i)"}, {"en": "Only (i) and (ii)", "hi": "केवल (i) और (ii)"}, {"en": "Only (iii)", "hi": "केवल (iii)"}, {"en": "All of (i), (ii) and (iii)", "hi": "(i), (ii) और (iii) सभी"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [1], "exp": {"en": "(i) and (ii) are from the Litchi SoP. (iii) is wrong: litchi mixed plantation is done only where year-round irrigation is available. 1 acre = 260 plants (45 litchi + 135 guava/ber/sharifa + 80 timber), about ₹6.01 lakh.", "hi": "(i) और (ii) लीची SoP में दिए गए हैं। (iii) गलत है: लीची मिश्रित बागवानी वहीं होगी जहाँ सालों भर सिंचाई का साधन हो। 1 एकड़ = 260 पौधे (45 लीची + 135 अमरूद/बेर/शरीफा + 80 इमारती), लगभग ₹6.01 लाख।"}, "src": "Litchi Mixed Plantation SoP (N) 881, 26.06.2025, pp.3–5"}, {"type": "single", "q": {"en": "In the BHGY 1-acre MIXED fruit orchard model, how many mango and guava plants are planted in the main plot?", "hi": "BHGY के 1 एकड़ मिश्रित फलदार बागवानी मॉडल में मुख्य प्लॉट में आम और अमरूद के कितने पौधे लगते हैं?"}, "opts": [{"en": "56 mango + 56 guava", "hi": "56 आम + 56 अमरूद"}, {"en": "112 mango only", "hi": "केवल 112 आम"}, {"en": "45 litchi + 135 guava", "hi": "45 लीची + 135 अमरूद"}, {"en": "100 mango + 50 guava", "hi": "100 आम + 50 अमरूद"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Mixed model for 1 acre = 192 plants: 56 mango + 56 guava planted one after another at 5 × 5 m in the main plot, plus 80 timber/fodder plants on the border (about ₹3.4 lakh). 112 mango + 80 timber is the mango-only model; 45 litchi + 135 guava is the litchi model.", "hi": "1 एकड़ मिश्रित मॉडल = 192 पौधे: मुख्य प्लॉट में 5 × 5 मीटर पर एक के बाद एक 56 आम + 56 अमरूद, और किनारे पर 80 इमारती/चारा पौधे (लगभग ₹3.4 लाख)। 112 आम + 80 इमारती केवल आम का मॉडल है; 45 लीची + 135 अमरूद लीची मॉडल है।"}, "src": "BHGY Booklet p.16"}, {"type": "single", "q": {"en": "In every district, mixed fruit plants must be planted on at least how much of the total BHGY plantation area?", "hi": "हर जिले में BHGY के कुल बागवानी क्षेत्र के कम से कम कितने भाग में मिश्रित फलदार पौधे लगाने हैं?"}, "opts": [{"en": "10%", "hi": "10%"}, {"en": "25%", "hi": "25%"}, {"en": "50%", "hi": "50%"}, {"en": "100%", "hi": "100%"}, {"en": "There is no such rule", "hi": "ऐसा कोई नियम नहीं है"}], "ans": [2], "exp": {"en": "The 2024-25 guidelines ask each district to put at least 50% of its plantation area under mixed fruit plants, so that the beneficiary earns something all year. Mixed orchards should be done in a cluster approach so plants and materials reach on time.", "hi": "2024-25 मार्गदर्शिका के अनुसार हर जिले के कुल बागवानी क्षेत्र के कम से कम 50% में मिश्रित फलदार पौधे लगाने हैं, ताकि लाभुक को सालों भर आमदनी मिले। मिश्रित बागवानी क्लस्टर अप्रोच में हो ताकि पौधे और सामग्री समय पर पहुँचें।"}, "src": "BHGY Guidelines (N) 350, 19.03.2024, p.3"}, {"type": "single", "q": {"en": "Read the statements about mango varieties in BHGY:\n(i) Mainly Amrapali and Mallika mango are planted.\n(ii) If bigger varieties like Langra, Maldah or Dashehari are chosen, the mixed-plantation estimate should be used.\n(iii) Only mango can be planted under BHGY.\nWhich are correct?", "hi": "BHGY में आम की किस्मों के बारे में कथन पढ़ें:\n(i) मुख्य रूप से आम्रपाली और मल्लिका आम लगाए जाते हैं।\n(ii) लंगड़ा, मालदह या दशहरी जैसी बड़ी किस्में चुनने पर मिश्रित बागवानी का प्राक्कलन लेना है।\n(iii) BHGY में केवल आम ही लगाया जा सकता है।\nकौन-से कथन सही हैं?"}, "opts": [{"en": "Only (i)", "hi": "केवल (i)"}, {"en": "Only (ii)", "hi": "केवल (ii)"}, {"en": "Only (i) and (ii)", "hi": "केवल (i) और (ii)"}, {"en": "All of (i), (ii) and (iii)", "hi": "(i), (ii) और (iii) सभी"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [2], "exp": {"en": "(i) and (ii) are correct: Amrapali and Mallika are the main varieties, and large varieties need wider spacing, so the mixed estimate is used. (iii) is wrong: guava, lemon, litchi, ber, chiku, sharifa, pear, orange, jackfruit, drumstick, Arjun, Semialata and more can be planted.", "hi": "(i) और (ii) सही हैं: आम्रपाली और मल्लिका मुख्य किस्में हैं, और बड़ी किस्मों को अधिक दूरी चाहिए, इसलिए मिश्रित प्राक्कलन लिया जाता है। (iii) गलत है: अमरूद, नीम्बू, लीची, बैर, चीकू, शरीफा, नाशपाती, संतरा, कटहल, सहजन, अर्जुन, सेमियालता आदि भी लगाए जा सकते हैं।"}, "src": "BHGY Guidelines (N) 350, pp.2, 5"}, {"type": "single", "q": {"en": "Arjun plantation for tasar silk under BHGY can be done:", "hi": "तसर हेतु अर्जुन वृक्षारोपण BHGY में कैसे किया जा सकता है?"}, "opts": [{"en": "Only in a cluster of at least 15 acres; one beneficiary from 1 acre up to 2.47 acres (1 ha)", "hi": "केवल कम से कम 15 एकड़ के क्लस्टर में; एक लाभुक 1 एकड़ से 2.47 एकड़ (1 हेक्टेयर) तक"}, {"en": "Individually on as little as 10 decimal", "hi": "अकेले, केवल 10 डिसमिल पर भी"}, {"en": "Only on Gair Majarua land", "hi": "केवल गैर-मजरूआ जमीन पर"}, {"en": "Only in clusters of 100 acres or more", "hi": "केवल 100 एकड़ या उससे बड़े क्लस्टर में"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Arjun is planted only in a cluster of 15 acres or more, on the beneficiary's own land in their possession. One beneficiary can take at least 1 acre and at most 2.47 acres (1 hectare).", "hi": "अर्जुन का रोपण केवल 15 एकड़ या उससे बड़े क्लस्टर में, लाभुक की अपनी दखल वाली जमीन पर होगा। एक लाभुक कम से कम 1 एकड़ और अधिक से अधिक 2.47 एकड़ (1 हेक्टेयर) में लगा सकता है।"}, "src": "BHGY Guidelines (N) 350, p.9"}, {"type": "single", "q": {"en": "A good patch has no irrigation source within 100 metres. What should be done?", "hi": "एक अच्छे पैच के 100 मीटर के अंदर सिंचाई का साधन नहीं है। क्या करना चाहिए?"}, "opts": [{"en": "Plant fruit plants anyway and carry water by hand", "hi": "फिर भी फलदार पौधे लगा दें और हाथ से पानी ढोएं"}, {"en": "First create irrigation (e.g. a well) and land works like ECB/SCT, and plant fruit trees there the next year", "hi": "पहले सिंचाई (जैसे कुआँ) और ECB/SCT जैसे भूमि सुधार कार्य कराएं, और अगले वर्ष वहाँ फलदार पौधे लगाएं"}, {"en": "Plant only timber plants there this year", "hi": "इस वर्ष वहाँ केवल इमारती पौधे लगाएं"}, {"en": "Drop the whole village from the scheme", "hi": "पूरे गाँव को योजना से हटा दें"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [1], "exp": {"en": "The guidelines say: if there is no irrigation within 100 m, the Gram Sabha/Panchayat should first take up an irrigation work (like a well) and land works such as Earthen Contour Bund (ECB) or Staggered Contour Trench (SCT), and do the fruit orchard the next year. A site without year-round irrigation must not be selected.", "hi": "मार्गदर्शिका के अनुसार 100 मीटर के अंदर सिंचाई न हो तो ग्राम सभा/पंचायत पहले सिंचाई (जैसे कुआँ) और ECB (मिट्टी का कंटूर बांध) या SCT (स्टैगर्ड कंटूर ट्रेंच) जैसे कार्य कराए, और अगले वर्ष फलदार बागवानी करे। सालों भर सिंचाई न हो तो स्थल का चयन न करें।"}, "src": "BHGY Guidelines (N) 350, p.11"}, {"type": "multi", "q": {"en": "Which conditions must a beneficiary meet for an individual BHGY orchard? (Select all that apply)", "hi": "व्यक्तिगत BHGY बागवानी के लिए लाभुक को कौन-सी शर्तें पूरी करनी हैं? (सभी सही विकल्प चुनें)"}, "opts": [{"en": "Has a job card (or gets one before sanction)", "hi": "जॉब कार्ड हो (या स्वीकृति से पहले बन जाए)"}, {"en": "Has own savings bank account (or opens one before sanction)", "hi": "निजी बचत बैंक खाता हो (या स्वीकृति से पहले खुल जाए)"}, {"en": "Land is their own raiyati land, in their possession, with no dispute", "hi": "जमीन अपनी रैयती हो, उनके दखल में हो और कोई विवाद न हो"}, {"en": "Must own a tractor", "hi": "ट्रैक्टर होना जरूरी है"}, {"en": "Must be a government employee", "hi": "सरकारी कर्मचारी होना जरूरी है"}], "ans": [0, 1, 2], "exp": {"en": "The family should have a job card and a personal savings bank account before sanction, the land should be their own raiyati land in their possession without any dispute, they should depend mainly on farming and be able to give time to the orchard daily. No tractor or government job is needed.", "hi": "स्वीकृति से पहले जॉब कार्ड और निजी बचत बैंक खाता हो, जमीन अपनी रैयती, दखल में और बिना विवाद हो, आजीविका मुख्य रूप से खेती पर हो और बगान को रोज समय दे सकें। ट्रैक्टर या सरकारी नौकरी की जरूरत नहीं।"}, "src": "BHGY Guidelines (N) 350, pp.7–8"}, {"type": "single", "q": {"en": "The district-level Bagwani (Plantation) Salahkar Samiti must meet:", "hi": "जिला स्तरीय बागवानी सलाहकार समिति की बैठक कब होनी चाहिए?"}, "opts": [{"en": "At least once in three months, headed by the DC-cum-District Programme Coordinator", "hi": "कम से कम तीन महीने में एक बार, उपायुक्त-सह-जिला कार्यक्रम समन्वयक की अध्यक्षता में"}, {"en": "Every week, headed by the BDO", "hi": "हर सप्ताह, BDO की अध्यक्षता में"}, {"en": "Once a year, headed by the Mukhiya", "hi": "साल में एक बार, मुखिया की अध्यक्षता में"}, {"en": "Every month, headed by the Junior Engineer", "hi": "हर महीने, कनीय अभियंता की अध्यक्षता में"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "The district Bagwani Salahkar Samiti (letter (N) 455, 15.05.2020) meets at least once in 3 months (quarterly). It is headed by the DC-cum-DPC, with DFO, Agriculture and Horticulture officers, Soil Conservation officer, KVK expert, NABARD DDM, PO-MGNREGA / VB-G RAM G, JSLPS DPM, FPO and CSO members. The block committee also meets at least once in 3 months.", "hi": "जिला बागवानी सलाहकार समिति (पत्रांक (N) 455, 15.05.2020) की बैठक कम से कम तीन महीने में एक बार (तिमाही) होती है। अध्यक्ष उपायुक्त-सह-DPC; सदस्य वन प्रमण्डल पदाधिकारी, कृषि व उद्यान पदाधिकारी, मृदा संरक्षण पदाधिकारी, KVK विशेषज्ञ, NABARD DDM, PO-मनरेगा / VB-G RAM G, JSLPS DPM, FPO व CSO प्रतिनिधि। प्रखण्ड समिति की बैठक भी तीन महीने में कम से कम एक बार।"}, "src": "BHGY Guidelines (N) 350, pp.14–15"}, {"type": "single", "q": {"en": "Who heads the district Technical Inspection Team that checks nurseries before plants are bought?", "hi": "पौधे खरीदने से पहले नर्सरियों की जाँच करने वाले जिला तकनीकी जाँच दल की अध्यक्षता कौन करता है?"}, "opts": [{"en": "DDC-cum-Additional District Programme Coordinator", "hi": "उप विकास आयुक्त-सह-अतिरिक्त जिला कार्यक्रम समन्वयक"}, {"en": "Block Development Officer", "hi": "प्रखण्ड विकास पदाधिकारी"}, {"en": "Mukhiya", "hi": "मुखिया"}, {"en": "Bagwani Sakhi", "hi": "बागवानी सखी"}, {"en": "Nursery owner", "hi": "नर्सरी मालिक"}], "ans": [0], "exp": {"en": "The team is headed by the DDC-cum-ADPC. Members: District Agriculture/Horticulture Officer, KVK subject expert, PO-MGNREGA / VB-G RAM G, AE/JE, JSLPS District Livelihood Manager and two CSO members. It visits nurseries and reports; the final decision on supply is taken in a meeting chaired by the DC-cum-DPC.", "hi": "दल की अध्यक्षता उप विकास आयुक्त-सह-ADPC करते हैं। सदस्य: जिला कृषि/उद्यान पदाधिकारी, KVK विषय-वस्तु विशेषज्ञ, PO-मनरेगा / VB-G RAM G, सहायक/कनीय अभियंता, JSLPS जिला आजीविका प्रबंधक और दो CSO प्रतिनिधि। दल नर्सरी भ्रमण कर प्रतिवेदन देता है; अंतिम निर्णय उपायुक्त-सह-DPC की बैठक में होता है।"}, "src": "BHGY Guidelines (N) 350, pp.12–13"}, {"type": "single", "q": {"en": "About buying fruit plants for BHGY:\n(i) Plants are bought from NHB-registered nurseries of Jharkhand, selected by the district through tender.\n(ii) At least 50% of the plants to be supplied must be present in the nursery, so the team can check quality.\n(iii) The district names a nodal officer for each block (and the block for each panchayat) for timely lifting and planting.\nWhich are correct?", "hi": "BHGY के लिए फलदार पौधों की खरीद के बारे में:\n(i) पौधे झारखण्ड की NHB निबंधित नर्सरियों से लिए जाते हैं, जिनका चयन जिला निविदा से करता है।\n(ii) आपूर्ति किए जाने वाले कम से कम 50% पौधे नर्सरी में मौजूद होने चाहिए ताकि दल गुणवत्ता जाँच सके।\n(iii) समय पर उठाव और रोपण के लिए जिला हर प्रखण्ड के लिए (और प्रखण्ड हर पंचायत के लिए) नोडल पदाधिकारी नामित करता है।\nकौन-से कथन सही हैं?"}, "opts": [{"en": "Only (i)", "hi": "केवल (i)"}, {"en": "Only (ii)", "hi": "केवल (ii)"}, {"en": "Only (i) and (ii)", "hi": "केवल (i) और (ii)"}, {"en": "All of (i), (ii) and (iii)", "hi": "(i), (ii) और (iii) सभी"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [3], "exp": {"en": "All three are in the guidelines. Plants come from National Horticulture Board (NHB) registered nurseries chosen by district tender; at least 50% of the plants must be available in the nursery for transparent quality checking; and nodal officers are named at district and block level for timely lifting and planting.", "hi": "तीनों कथन मार्गदर्शिका में हैं। पौधे राष्ट्रीय बागवानी बोर्ड (NHB) से निबंधित, जिला निविदा से चुनी नर्सरियों से आते हैं; पारदर्शी जाँच हेतु कम से कम 50% पौधे नर्सरी में उपलब्ध हों; और समय पर उठाव व रोपण के लिए जिला व प्रखण्ड स्तर पर नोडल पदाधिकारी नामित होते हैं।"}, "src": "BHGY Guidelines (N) 350, pp.12–13"}, {"type": "single", "q": {"en": "Timber plants for BHGY should be bought on priority from:", "hi": "BHGY के लिए इमारती पौधे प्राथमिकता से कहाँ से खरीदे जाने चाहिए?"}, "opts": [{"en": "Didi Bagiya entrepreneurs", "hi": "दीदी बगिया उद्यमियों से"}, {"en": "Any roadside seller", "hi": "किसी भी सड़क किनारे विक्रेता से"}, {"en": "Private companies from outside the state", "hi": "राज्य के बाहर की निजी कंपनियों से"}, {"en": "Only from the Mukhiya's nursery", "hi": "केवल मुखिया की नर्सरी से"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Timber plants are bought first from Didi Bagiya (SHG women's nursery) entrepreneurs. If not available, from Forest Department / government nurseries / government agriculture institutions, and after that from NHB-registered Jharkhand nurseries selected by tender.", "hi": "इमारती पौधे प्राथमिकता से दीदी बगिया (SHG दीदियों की नर्सरी) उद्यमियों से लिए जाते हैं। उपलब्ध न हों तो वन विभाग/सरकारी नर्सरी/सरकारी कृषि संस्थानों से, और उसके बाद निविदा से चुनी NHB निबंधित झारखण्ड की नर्सरियों से।"}, "src": "BHGY Guidelines (N) 350, p.12"}, {"type": "multi", "q": {"en": "Which are signs of a good-quality grafted mango plant? (Select all that apply)", "hi": "अच्छे कलमी (ग्राफ्टेड) आम पौधे की पहचान क्या है? (सभी सही विकल्प चुनें)"}, "opts": [{"en": "The graft is at least one year old", "hi": "कलम कम से कम एक साल पुराना हो"}, {"en": "The graft joint is fully joined and no polythene is tied on it", "hi": "कलम वाला स्थान पूरी तरह जुड़ा हो और उस पर पॉलीथीन बंधा न हो"}, {"en": "New leaves have come at least three times after grafting", "hi": "कलम के बाद कम से कम तीन बार नई पत्तियाँ आई हों"}, {"en": "Polythene is still tightly tied at the graft joint", "hi": "कलम वाले स्थान पर पॉलीथीन अभी भी कसकर बंधा हो"}, {"en": "A few insects on leaves are fine", "hi": "पत्तियों पर थोड़े कीट हों तो भी ठीक है"}], "ans": [0, 1, 2], "exp": {"en": "A good plant: graft at least 1 year old; graft joint fully healed without polythene; at least 3 flushes of leaves after grafting (each flush leaves a ring mark on the stem); polytube at least 6\" × 7\" with plenty of undamaged roots; and no pest or disease.", "hi": "अच्छा पौधा: कलम कम से कम 1 साल पुराना; कलम का जोड़ पूरा जुड़ा और पॉलीथीन हटा हुआ; कलम के बाद कम से कम 3 बार नई पत्तियाँ (हर बार तने पर अंगूठी जैसा निशान); पॉलीट्यूब कम से कम 6\" × 7\" और जड़ें भरपूर व बिना क्षति; और कोई कीट या बीमारी न हो।"}, "src": "BHGY Booklet p.23"}, {"type": "multi", "q": {"en": "Plants have reached the village from the nursery. Which are the correct steps? (Select all that apply)", "hi": "नर्सरी से पौधे गाँव पहुँच गए हैं। सही कदम कौन-से हैं? (सभी सही विकल्प चुनें)"}, "opts": [{"en": "Unload them by holding the soil ball (thala), not the stem", "hi": "पौधों को थाला (मिट्टी का गोला) पकड़कर उतारें, तना पकड़कर नहीं"}, {"en": "Keep them in a shady, safe place and spray insecticide and fungicide (also on the mud-ball)", "hi": "छायादार व सुरक्षित स्थान पर रखें और कीटनाशक व फफूंदनाशक का छिड़काव करें (थाले पर भी)"}, {"en": "After about two days, carry them to the field in a basket/tray and plant", "hi": "लगभग दो दिन बाद टोकरी/ट्रे में खेत ले जाकर रोपाई करें"}, {"en": "Pull them off the vehicle by the stem to save time", "hi": "समय बचाने के लिए तना पकड़कर गाड़ी से खींच लें"}, {"en": "Keep them in open hot sun for a week before planting", "hi": "रोपाई से पहले एक सप्ताह तक खुली तेज धूप में रखें"}], "ans": [0, 1, 2], "exp": {"en": "Hold plants by the soil ball while unloading, rest them in shade, spray insecticide and fungicide (fungicide also on the mud-ball), and after two days take them in a basket or tray to the field, plant and water as needed.", "hi": "उतारते समय पौधों को थाला पकड़कर उतारें, छाया में रखें, कीटनाशक व फफूंदनाशक छिड़कें (फफूंदनाशक थाले पर भी), और दो दिन बाद टोकरी या ट्रे से खेत ले जाकर रोपाई करें और आवश्यकतानुसार सिंचाई दें।"}, "src": "BHGY Booklet p.24"}, {"type": "single", "q": {"en": "How should H-stakes be protected from termites?", "hi": "H-टेका (स्टेकिंग) को दीमक से कैसे बचाएं?"}, "opts": [{"en": "Paint them with coal tar or burnt mobil (used engine oil)", "hi": "कोलतार या जले हुए मोबिल से रंग दें"}, {"en": "Wrap them in polythene", "hi": "पॉलीथीन में लपेट दें"}, {"en": "Use thin, weak sticks so they are replaced often", "hi": "पतली कमजोर लकड़ी लगाएं ताकि बार-बार बदली जाए"}, {"en": "Soak them in urea solution", "hi": "यूरिया के घोल में भिगो दें"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Use big, strong stakes so they need not be changed as the plant grows, and paint them with coal tar or burnt mobil to protect them from termites. The H-stake is tied above the graft and should be fixed by July.", "hi": "बड़ा और मजबूत टेका लगाएं ताकि पौधा बढ़ने पर बार-बार न बदलना पड़े, और दीमक से बचाने के लिए कोलतार/जले मोबिल से रंग दें। H-टेका कलम के ऊपर बांधा जाता है और जुलाई तक लग जाना चाहिए।"}, "src": "BHGY Booklet p.32; BHGY Guidelines timeline"}, {"type": "single", "q": {"en": "BHGY work norms (person-days) under MGNREGA / VB-G RAM G:\n(i) 1 person-day for irrigating every 80 plants.\n(ii) 1 person-day for fixing H-stakes on every 400 mango plants.\n(iii) 1 person-day for spraying every 100 plants.\nWhich are correct?", "hi": "मनरेगा / VB-G RAM G अंतर्गत BHGY कार्य के मानक (मानव-दिवस):\n(i) हर 80 पौधों की सिंचाई पर 1 मानव-दिवस।\n(ii) हर 400 आम पौधों में H-टेका लगाने पर 1 मानव-दिवस।\n(iii) हर 100 पौधों में दवा छिड़काव पर 1 मानव-दिवस।\nकौन-से कथन सही हैं?"}, "opts": [{"en": "Only (i)", "hi": "केवल (i)"}, {"en": "Only (i) and (ii)", "hi": "केवल (i) और (ii)"}, {"en": "Only (i) and (iii)", "hi": "केवल (i) और (iii)"}, {"en": "All of (i), (ii) and (iii)", "hi": "(i), (ii) और (iii) सभी"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [2], "exp": {"en": "(i) and (iii) are correct. (ii) is wrong: H-stake preparation and fixing is 1 person-day for every 40 mango plants. Other norms: weeding-manuring-basin 1 person-day per 25 plants; fencing 1 person-day per 20 ft plus ₹8 per ft for material.", "hi": "(i) और (iii) सही हैं। (ii) गलत है: H-टेका तैयार करने व लगाने के लिए हर 40 आम पौधों पर 1 मानव-दिवस है। अन्य मानक: निकाई-गुड़ाई-खाद-बेसिन के लिए 25 पौधों पर 1 मानव-दिवस; घेरान 20 फीट पर 1 मानव-दिवस और सामग्री ₹8 प्रति फीट।"}, "src": "BHGY Booklet p.54"}, {"type": "single", "q": {"en": "In the second year, repair of the orchard fencing is allowed up to:", "hi": "दूसरे वर्ष में बगान के घेरान की मरम्मत कितनी तक कराई जा सकती है?"}, "opts": [{"en": "25% of the total fencing", "hi": "कुल घेरान का अधिकतम 25%"}, {"en": "50% of the total fencing", "hi": "कुल घेरान का 50%"}, {"en": "100% — full new fencing every year", "hi": "100% — हर साल पूरा नया घेरान"}, {"en": "No repair is allowed", "hi": "कोई मरम्मत नहीं"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "In the first year a 5 ft high live fence is made around the orchard; in the second year repair of up to 25% of the total fencing is allowed.", "hi": "पहले वर्ष बगान के चारों ओर 5 फीट ऊँचा जिन्दा घेरान बनता है; दूसरे वर्ष कुल घेरान के अधिकतम 25% तक की मरम्मत का प्रावधान है।"}, "src": "BHGY Booklet p.54"}, {"type": "single", "q": {"en": "As per the Bagwani Sakhi policy, how is Bagwani Sakhi training organised?", "hi": "बागवानी सखी प्रोत्साहन नीति के अनुसार बागवानी सखी का प्रशिक्षण कैसे होता है?"}, "opts": [{"en": "5 modules in phases; Module 1 is a 3-day residential training in April–May", "hi": "चरणबद्ध 5 मॉड्यूल; मॉड्यूल 1 अप्रैल–मई में 3 दिवसीय आवासीय प्रशिक्षण"}, {"en": "One 1-day meeting only", "hi": "केवल एक 1 दिवसीय बैठक"}, {"en": "10 online modules, no field visit", "hi": "10 ऑनलाइन मॉड्यूल, कोई फील्ड भ्रमण नहीं"}, {"en": "No training — only experience counts", "hi": "कोई प्रशिक्षण नहीं — केवल अनुभव"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Training is phased in 5 residential modules: Module 1 (April–May, 3 days: scheme provisions, site and soil, layout, pits, fencing, CPT, jalkund, registers, mobile app); Module 2 (June–August, 3 days: plant quality, planting, diseases, kharif crops); Module 3 (Sept–Nov, 2 days: pruning, canopy, irrigation, flowering, harvest, rabi crops); Module 4 (Dec–Feb, 2 days: producer groups and marketing); Module 5 (2-day refresher).", "hi": "प्रशिक्षण 5 आवासीय मॉड्यूल में चरणबद्ध होता है: मॉड्यूल 1 (अप्रैल–मई, 3 दिन: योजना प्रावधान, स्थल व मिट्टी, ले-आउट, गड्ढा, घेरान, CPT, जलकुंड, पंजी, मोबाइल ऐप); मॉड्यूल 2 (जून–अगस्त, 3 दिन: पौधों की गुणवत्ता, रोपण, बीमारी, खरीफ फसल); मॉड्यूल 3 (सितंबर–नवंबर, 2 दिन: कटाई-छँटाई, कैनोपी, सिंचाई, फूल-फल, तुड़ाई, रबी फसल); मॉड्यूल 4 (दिसंबर–फरवरी, 2 दिन: उत्पादक संघ व बिक्री); मॉड्यूल 5 (2 दिन रिफ्रेशर)।"}, "src": "Bagwani Sakhi Protsahan Niti (N) 85, section 4.2"}, {"type": "single", "q": {"en": "As per the 2024 Bagwani Sakhi policy:\n(i) Selection, training and payment of the Sakhi is done by JSLPS as per DAY-NRLM guidelines.\n(ii) Her name must be registered in the JSLPS MIS; otherwise she cannot be paid as a community cadre.\n(iii) The Sakhi is paid by the nursery owner.\nWhich are correct?", "hi": "2024 की बागवानी सखी नीति के अनुसार:\n(i) सखी का चयन, प्रशिक्षण और भुगतान JSLPS द्वारा DAY-NRLM मार्गदर्शिका अनुसार होता है।\n(ii) उसका नाम JSLPS के MIS में पंजीकृत होना जरूरी है; नहीं तो सामुदायिक कैडर के रूप में भुगतान नहीं होगा।\n(iii) सखी को भुगतान नर्सरी मालिक करता है।\nकौन-से कथन सही हैं?"}, "opts": [{"en": "Only (i)", "hi": "केवल (i)"}, {"en": "Only (iii)", "hi": "केवल (iii)"}, {"en": "Only (i) and (ii)", "hi": "केवल (i) और (ii)"}, {"en": "All of (i), (ii) and (iii)", "hi": "(i), (ii) और (iii) सभी"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [2], "exp": {"en": "(i) and (ii) are correct. Selected Sakhis are listed with the state office and registered in the JSLPS MIS; a Sakhi not shown on the portal is not treated as contracted and gets no cadre payment. She submits a monthly payment form and is paid for work done. (iii) is wrong.", "hi": "(i) और (ii) सही हैं। चयनित सखियों की सूची राज्य कार्यालय में जमा होकर JSLPS के MIS में पंजीकरण होता है; पोर्टल पर नाम न दिखे तो उसे अनुबंधित नहीं माना जाएगा और कैडर भुगतान नहीं होगा। वह हर माह भुगतान प्रपत्र देती है और कार्य के अनुसार भुगतान पाती है। (iii) गलत है।"}, "src": "Bagwani Sakhi Protsahan Niti (N) 85, sections 4.3–4.4"}, {"type": "multi", "q": {"en": "Which statements about the one-day 'Aam Utsav-cum-Bagwani Mela' are correct? (Select all that apply)", "hi": "एक दिवसीय 'आम उत्सव-सह-बागवानी मेला' के बारे में कौन-से कथन सही हैं? (सभी सही विकल्प चुनें)"}, "opts": [{"en": "It is held at cluster, block and district level", "hi": "यह संकुल, प्रखण्ड और जिला स्तर पर होता है"}, {"en": "Naturally (organically) ripened fruits are given special importance", "hi": "जैविक रूप से पकाए गए फलों को विशेष महत्व दिया जाता है"}, {"en": "Successful beneficiaries are invited to share their success stories", "hi": "सफल लाभुकों को अपनी सफलता की कहानी बताने के लिए बुलाया जाता है"}, {"en": "Fruits ripened with harmful chemicals are promoted", "hi": "हानिकारक रसायन से पकाए गए फलों को बढ़ावा दिया जाता है"}, {"en": "It is held only once in 5 years in the state capital", "hi": "यह केवल 5 साल में एक बार राजधानी में होता है"}], "ans": [0, 1, 2], "exp": {"en": "The mela is a one-day event at cluster, block and district level (June–July in the calendar). It popularises BHGY and its fruits, highlights naturally ripened fruit and warns about fruit ripened with harmful chemicals. Good farmers share success stories; it is publicised at least a week before and documented.", "hi": "मेला संकुल, प्रखण्ड और जिला स्तर पर एक दिवसीय आयोजन है (कैलेंडर में जून–जुलाई)। इससे BHGY व उसके फलों का प्रचार होता है, जैविक रूप से पके फलों को महत्व और रसायन से पकाए फलों के दुष्प्रभाव बताए जाते हैं। सफल किसान अपनी कहानी साझा करते हैं; कम से कम एक सप्ताह पहले प्रचार और दस्तावेजीकरण होता है।"}, "src": "BHGY Guidelines (N) 350, p.21"}, {"type": "single", "q": {"en": "All costs of BHGY trainings and exposure visits for MGNREGA / VB-G RAM G, JSLPS and CSO staff are met from:", "hi": "मनरेगा / VB-G RAM G, JSLPS और CSO कर्मियों के BHGY प्रशिक्षण एवं स्थल भ्रमण का सारा खर्च कहाँ से होता है?"}, "opts": [{"en": "The administrative head of MGNREGA / VB-G RAM G", "hi": "मनरेगा / VB-G RAM G के प्रशासनिक मद से"}, {"en": "Participants pay themselves", "hi": "प्रतिभागी स्वयं देते हैं"}, {"en": "The nursery supplier", "hi": "नर्सरी आपूर्तिकर्ता"}, {"en": "The beneficiary's wage", "hi": "लाभुक की मजदूरी से"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Training and exposure-visit expenses are met from the MGNREGA / VB-G RAM G administrative head, arranged by the district and block. KVK, JSLPS, Agriculture/Animal Husbandry department and CSO experts can be used as resource persons, and each district keeps a list of trainers.", "hi": "प्रशिक्षण और स्थल भ्रमण का खर्च मनरेगा / VB-G RAM G के प्रशासनिक मद से होता है, जिसकी व्यवस्था जिला और प्रखण्ड करते हैं। KVK, JSLPS, कृषि/पशुपालन विभाग और CSO विशेषज्ञ संसाधन व्यक्ति हो सकते हैं और जिला प्रशिक्षकों की सूची बनाता है।"}, "src": "BHGY Guidelines (N) 350, p.20"}, {"type": "single", "q": {"en": "On a Kusum tree, Kusmi lac normally multiplies how much in one 6-month crop?", "hi": "कुसुम वृक्ष पर कुसमी लाख की एक 6 माह की फसल में सामान्यतः कितनी गुना उपज होती है?"}, "opts": [{"en": "About 7–8 times (1 kg brood lac gives 7–8 kg)", "hi": "लगभग 7–8 गुना (1 किलो बीहन लाख से 7–8 किलो)"}, {"en": "Same quantity (1 kg gives 1 kg)", "hi": "उतनी ही (1 किलो से 1 किलो)"}, {"en": "About 50 times", "hi": "लगभग 50 गुना"}, {"en": "Lac cannot be grown on Kusum", "hi": "कुसुम पर लाख नहीं होती"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "On Kusum, the Kusmi lac insect gives about 7–8 times in a 6-month crop: 1 kg brood lac gives 7–8 kg. A big tree needs 4–6 kg brood and gives 30–45 kg brood after 6 months. Kusum gives lac about 6 years after planting; trees are pruned about 18 months before inoculation (12 months the first time).", "hi": "कुसुम पर कुसमी लाख कीट 6 माह की फसल में लगभग 7–8 गुना देता है: 1 किलो बीहन से 7–8 किलो। एक बड़े वृक्ष पर 4–6 किलो बीहन लगता है और 6 माह बाद 30–45 किलो बीहन मिलता है। रोपण के लगभग 6 वर्ष बाद कुसुम पर लाख होती है; कीट-संचारण से लगभग 18 माह पहले (पहली बार 12 माह) कटाई-छँटाई करते हैं।"}, "src": "Kusum & Semialata letter (N) 1075, pp.3–4"}, {"type": "single", "q": {"en": "For the best income from a litchi orchard, the Litchi SoP advises:", "hi": "लीची बागान से अधिकतम लाभ के लिए लीची SoP क्या सलाह देता है?"}, "opts": [{"en": "Plant a mix of early (e.g. Shahi) and late (e.g. China) litchi varieties", "hi": "अगेती (जैसे शाही) और पछेती (जैसे चाइना) किस्मों का मिश्रण लगाएं"}, {"en": "Plant only one variety", "hi": "केवल एक ही किस्म लगाएं"}, {"en": "Do not plant guava with litchi", "hi": "लीची के साथ अमरूद न लगाएं"}, {"en": "Plant litchi without any irrigation source", "hi": "बिना सिंचाई साधन के लीची लगाएं"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Shahi is early (15–30 May, fragrant, high yield), Swarnmadhu is mid (1–10 June, big fruit, small seed) and China/Purbi is late (10–15 June, bears in alternate years). Mixing early and late varieties spreads harvest and gives maximum benefit. Guava/ber/sharifa are planted with litchi, and year-round irrigation is required.", "hi": "शाही अगेती (15–30 मई, सुगंधित, अधिक उपज), स्वर्णमधु मध्यम (1–10 जून, फल बड़ा, बीज छोटा) और चाइना/पूर्वी पछेती (10–15 जून, एक वर्ष के अंतराल पर फल)। अगेती और पछेती किस्मों के मिश्रण से तुड़ाई फैलती है और अधिकतम लाभ मिलता है। लीची के साथ अमरूद/बेर/शरीफा लगते हैं और सालों भर सिंचाई जरूरी है।"}, "src": "Litchi Mixed Plantation SoP (N) 881, pp.5, 10"}, {"type": "single", "q": {"en": "Chlorothalonil 75% WP (trade name Kavach), used in BHGY orchards, is a:", "hi": "बागवानी में प्रयोग होने वाला क्लोरोथलोनिल 75% WP (व्यापारिक नाम कवच) क्या है?"}, "opts": [{"en": "Fungicide", "hi": "फफूंदनाशक"}, {"en": "Insecticide", "hi": "कीटनाशक"}, {"en": "Termiticide", "hi": "दीमकनाशक"}, {"en": "Fertiliser", "hi": "उर्वरक"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Chlorothalonil 75% WP (Kavach) is a fungicide, used at 1.5 g per litre of water, twice a year, mainly against anthracnose. Other fungicides in BHGY: copper oxychloride (2 g per plant, twice a year) and blue copper.", "hi": "क्लोरोथलोनिल 75% WP (कवच) फफूंदनाशक है, 1.5 ग्राम प्रति लीटर पानी में, साल में दो बार, मुख्यतः एन्थ्रेक्नोज के लिए। BHGY के अन्य फफूंदनाशक: कॉपर ऑक्सीक्लोराइड (2 ग्राम प्रति पौधा, साल में दो बार) और ब्लू कॉपर।"}, "src": "BHGY Booklet p.22 (dose table), p.46"}, {"type": "multi", "q": {"en": "Which of these are INSECTICIDES recommended in the BHGY booklet? (Select all that apply)", "hi": "BHGY पुस्तिका में बताए गए इनमें से कौन-से कीटनाशक (INSECTICIDE) हैं? (सभी सही विकल्प चुनें)"}, "opts": [{"en": "Lambda-cyhalothrin 5% EC (Karate)", "hi": "लैम्ब्डा साइहलोथ्रिन 5% EC (कराटे)"}, {"en": "Quinalphos", "hi": "क्विनालफॉस"}, {"en": "Imidacloprid", "hi": "इमिडाक्लोप्रिड"}, {"en": "Copper oxychloride", "hi": "कॉपर ऑक्सीक्लोराइड"}, {"en": "Chlorothalonil", "hi": "क्लोरोथलोनिल"}], "ans": [0, 1, 2], "exp": {"en": "Insecticides: Lambda-cyhalothrin 5% EC (1 ml/L) and Quinalphos (2 ml/L) against mango stem borer; Imidacloprid or Dimethoate on new leaves against leaf gall midge; Ektara (thiamethoxam) and neem oil against thrips. Copper oxychloride and Chlorothalonil are fungicides.", "hi": "कीटनाशक: लैम्ब्डा साइहलोथ्रिन 5% EC (1 मिली/ली) और क्विनालफॉस (2 मिली/ली) आम के तना छेदक पर; इमिडाक्लोप्रिड या डाइमेथोएट नई पत्तियों पर लीफ गॉल मिज के लिए; एक्टारा (थायमेथोक्साम) व नीम तेल थ्रिप्स पर। कॉपर ऑक्सीक्लोराइड और क्लोरोथलोनिल फफूंदनाशक हैं।"}, "src": "BHGY Booklet pp.22, 36, 38, 43"}, {"type": "multi", "q": {"en": "Which of these are used for TERMITE (deemak) control in BHGY orchards? (Select all that apply)", "hi": "BHGY बागान में दीमक नियंत्रण के लिए इनमें से किनका प्रयोग होता है? (सभी सही विकल्प चुनें)"}, "opts": [{"en": "Bifenthrin (Biflex TC)", "hi": "बाइफेन्थ्रिन (बाइफ्लेक्स TC)"}, {"en": "Chlorpyriphos 20 EC", "hi": "क्लोरपायरीफॉस 20 EC"}, {"en": "Neem or karanj cake (khalli)", "hi": "नीम या करंज की खल्ली"}, {"en": "Urea", "hi": "यूरिया"}, {"en": "Starch 2% spray", "hi": "स्टार्च 2% का छिड़काव"}], "ans": [0, 1, 2], "exp": {"en": "For termites: spray Bifenthrin (Biflex TC, 2–3 ml/L) on pit walls; pour Chlorpyriphos 20 EC (2 ml/L) or Biflex TC into the termite mound to kill the queen; apply neem/karanj cake (250 kg/ha) and irrigate; use only fully decomposed FYM; after destroying the mound, paint lime + neem oil on the stem. Urea is a fertiliser; starch spray is for sooty mould.", "hi": "दीमक के लिए: गड्ढे की दीवारों पर बाइफेन्थ्रिन (बाइफ्लेक्स TC, 2–3 मिली/ली) का छिड़काव; रानी दीमक नष्ट करने के लिए बामी में क्लोरपायरीफॉस 20 EC (2 मिली/ली) या बाइफ्लेक्स TC डालें; नीम/करंज खल्ली (250 किग्रा/हे.) डालकर सिंचाई; केवल पूरी सड़ी गोबर खाद; बामी नष्ट करने के बाद तने पर चूना + नीम तेल का लेप। यूरिया उर्वरक है; स्टार्च छिड़काव काली असिता के लिए है।"}, "src": "BHGY Booklet pp.21, 39–41"}, {"type": "single", "q": {"en": "Trichoderma, mixed with compost and applied at planting (10 g per plant), is a:", "hi": "रोपाई के समय खाद में मिलाकर डाला जाने वाला ट्राईकोडर्मा (10 ग्राम प्रति पौधा) क्या है?"}, "opts": [{"en": "Biological fungicide — a friendly fungus that protects roots from soil-borne fungal disease", "hi": "जैविक फफूंदनाशक — मित्र फफूंद जो जड़ों को मिट्टी जनित फफूंद रोग से बचाता है"}, {"en": "Chemical insecticide", "hi": "रासायनिक कीटनाशक"}, {"en": "Weedicide", "hi": "खरपतवारनाशक"}, {"en": "Plant growth hormone", "hi": "पौधों का वृद्धि हार्मोन"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Trichoderma is a bio-fungicide. Mix 1 kg in 100 kg compost/FYM, keep the heap in shade under a wet jute bag, turn it after 7 days; it is ready in about 15 days. Apply 2–3 days before planting, and do not use chemical fungicide in the root soil afterwards.", "hi": "ट्राईकोडर्मा जैविक फफूंदनाशक है। 100 किलो खाद में 1 किलो मिलाएं, ढेर को छाया में भीगे बोरे से ढकें, 7 दिन बाद उलट-पलट करें; लगभग 15 दिन में तैयार। रोपाई से 2–3 दिन पहले डालें और उसके बाद जड़ की मिट्टी में रासायनिक फफूंदनाशक न डालें।"}, "src": "BHGY Booklet pp.21–22"}, {"type": "single", "q": {"en": "The bio-insecticide Azadirachtin 3000 ppm (used at 2 ml per litre) is made from:", "hi": "जैविक कीटनाशक एज़ाडिरेक्टिन 3000 PPM (2 मिली प्रति लीटर) किससे बनता है?"}, "opts": [{"en": "Neem", "hi": "नीम"}, {"en": "Tobacco", "hi": "तम्बाकू"}, {"en": "Copper", "hi": "तांबा (कॉपर)"}, {"en": "Sulphur", "hi": "गंधक (सल्फर)"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Azadirachtin is the active part of neem oil. Neem oil (Azadirachtin 3000 ppm) is sprayed at 2 ml per litre, twice a year, and against thrips, hairy caterpillars and other leaf-eating insects.", "hi": "एज़ाडिरेक्टिन नीम तेल का सक्रिय तत्व है। नीम तेल (एज़ाडिरेक्टिन 3000 PPM) 2 मिली प्रति लीटर, साल में दो बार, और थ्रिप्स, रोएँदार इल्ली व पत्ती खाने वाले कीटों पर छिड़का जाता है।"}, "src": "BHGY Booklet pp.22, 37, 43"}, {"type": "single", "q": {"en": "Fipronil 0.3% GR is put in the pit at planting (10 g per plant). Why?", "hi": "रोपाई के समय गड्ढे में फिप्रोनिल 0.3% GR (10 ग्राम प्रति पौधा) क्यों डाला जाता है?"}, "opts": [{"en": "To protect roots from soil insects like termites", "hi": "जड़ों को दीमक जैसे मिट्टी के कीटों से बचाने के लिए"}, {"en": "To increase flowering", "hi": "फूल बढ़ाने के लिए"}, {"en": "To control anthracnose (a fungus)", "hi": "एन्थ्रेक्नोज (फफूंद) रोकने के लिए"}, {"en": "As the main fertiliser", "hi": "मुख्य उर्वरक के रूप में"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Fipronil 0.3% GR is a granular soil insecticide. 10 g per pit at planting protects the young roots from termites and other soil insects. It is not a fungicide or fertiliser.", "hi": "फिप्रोनिल 0.3% GR दानेदार मिट्टी कीटनाशक है। रोपाई के समय प्रति गड्ढा 10 ग्राम डालने से छोटी जड़ें दीमक और मिट्टी के अन्य कीटों से बचती हैं। यह फफूंदनाशक या उर्वरक नहीं है।"}, "src": "BHGY Booklet pp.22, 27"}, {"type": "single", "q": {"en": "In the Jethwi (summer) lac crop, Indoxacarb 0.007% and Carbendazim 0.05% are sprayed 28–30 days after tying brood lac. Which is correct?", "hi": "जेठवी (ग्रीष्मकालीन) लाख फसल में बीहन चढ़ाने के 28–30 दिन पर इन्डोक्साकार्ब 0.007% और कारबेन्डाजिम 0.05% छिड़का जाता है। सही क्या है?"}, "opts": [{"en": "Indoxacarb is an insecticide (against enemy insects like Chrysopa) and Carbendazim is a fungicide", "hi": "इन्डोक्साकार्ब कीटनाशक है (क्राइसोपा जैसे शत्रु कीट के लिए) और कारबेन्डाजिम फफूंदनाशक है"}, {"en": "Both are fertilisers", "hi": "दोनों उर्वरक हैं"}, {"en": "Both are fungicides", "hi": "दोनों फफूंदनाशक हैं"}, {"en": "Both are weedicides", "hi": "दोनों खरपतवारनाशक हैं"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [0], "exp": {"en": "Indoxacarb is an insecticide against Chrysopa and other enemy insects of the lac insect; Carbendazim is a fungicide. If Chrysopa attacks, a second spray is given at 60–62 days. In the Aghani crop, Ethofenprox (Bombard 10 EC) with Carbendazim is used.", "hi": "इन्डोक्साकार्ब लाख कीट के शत्रु कीट क्राइसोपा आदि के लिए कीटनाशक है; कारबेन्डाजिम फफूंदनाशक है। क्राइसोपा का आक्रमण हो तो 60–62 दिन पर दूसरा छिड़काव। अगहनी फसल में इथोफेनप्रॉक्स (बम्बार्ड 10 EC) के साथ कारबेन्डाजिम दिया जाता है।"}, "src": "Kusum & Semialata letter (N) 1075, pp.4–5"}, {"type": "single", "q": {"en": "Mango leaves and fruits show a black velvety layer (sooty mould). Which fungicide is sprayed as the main treatment?", "hi": "आम की पत्तियों व फलों पर काली मखमली परत (काली असिता / सूटी मोल्ड) दिख रही है। मुख्य उपचार के रूप में कौन-सा फफूंदनाशक छिड़कें?"}, "opts": [{"en": "Copper oxychloride", "hi": "कॉपर ऑक्सीक्लोराइड"}, {"en": "Chlorothalonil", "hi": "क्लोरोथलोनिल"}, {"en": "Carbendazim", "hi": "कारबेन्डाजिम"}, {"en": "Mancozeb", "hi": "मैन्कोजेब"}, {"en": "None of these — control the sucking insect (mealybug) and spray 2% starch", "hi": "इनमें से कोई नहीं — चूसक कीट (मधुआ/गुजिया) का नियंत्रण करें और 2% स्टार्च छिड़कें"}], "ans": [4], "exp": {"en": "Sooty mould grows on the sticky honeydew of sucking insects such as mealybug (gujiya). The booklet's treatment is to control the insect with a suitable insecticide and spray 2% starch, which dries and peels off the black layer.", "hi": "काली असिता चूसक कीटों जैसे मधुआ (गुजिया) के चिपचिपे मधुरस पर उगती है। पुस्तिका के अनुसार उचित कीटनाशक से कीट का नियंत्रण करें और 2% स्टार्च का छिड़काव करें, जो सूखकर काली परत को उतार देता है।"}, "src": "BHGY Booklet p.47"}, {"type": "single", "q": {"en": "About Mango Gummosis (gum oozing from the stem):\n(i) It is an insect pest that is controlled with urea.\n(ii) Remove/clean the diseased bark and apply copper oxychloride or cow-dung paste.\n(iii) Apply copper sulphate 500 g per tree in the soil around the trunk.\nWhich are correct?", "hi": "आम गमोसिस (तने से गोंद निकलना) के बारे में:\n(i) यह एक कीट है जिसका नियंत्रण यूरिया से होता है।\n(ii) रोगग्रस्त छाल हटाकर/साफ करके कॉपर ऑक्सीक्लोराइड या गाय के गोबर का लेप लगाएं।\n(iii) तने के आसपास की मिट्टी में 500 ग्राम कॉपर सल्फेट प्रति पेड़ डालें।\nकौन-से कथन सही हैं?"}, "opts": [{"en": "Only (i)", "hi": "केवल (i)"}, {"en": "Only (ii)", "hi": "केवल (ii)"}, {"en": "Only (ii) and (iii)", "hi": "केवल (ii) और (iii)"}, {"en": "All of (i), (ii) and (iii)", "hi": "(i), (ii) और (iii) सभी"}, {"en": "None of these", "hi": "इनमें से कोई नहीं"}], "ans": [2], "exp": {"en": "(ii) and (iii) are the booklet's management steps. (i) is wrong: gummosis is a disease (gum drops on stem and cracked bark, bark rots and the tree can dry), not an insect, and urea does not control it. Copper oxychloride and copper sulphate are copper-based chemicals against fungal disease.", "hi": "(ii) और (iii) पुस्तिका में बताए प्रबंधन हैं। (i) गलत है: गमोसिस एक रोग है (तने व फटी छाल पर गोंद, छाल सड़ती है और पेड़ सूख सकता है), कीट नहीं, और यूरिया से नियंत्रण नहीं होता। कॉपर ऑक्सीक्लोराइड और कॉपर सल्फेट फफूंद रोग के विरुद्ध तांबा आधारित रसायन हैं।"}, "src": "BHGY Booklet p.49"}];
+const DURATION_MS = 20 * 60 * 1000;
+const PASS_PERCENT = 75;          // change pass mark here
+const TRAINER_EMAIL = "";          // optional: copy of every result goes here (email link / Apps Script)
+const STORE_KEY = "bhgy-posttest-v1";
+const LETTERS = ["A","B","C","D","E"];
+// For the GitHub Pages copy: paste your Apps Script Web app URL (ends in /exec) between the quotes
+// to get automatic email + Google Sheet logging. Leave empty for no server.
+const WEBAPP_URL = "";
+const GAS = (typeof google !== "undefined" && google.script && google.script.run) ? google.script.run : null;
+const SERVER = !!(GAS || /^https:\/\/script\.google\.com\/.+\/exec$/.test(WEBAPP_URL));
+function callServer(payload, ok, fail){
+  if (GAS){ GAS.withSuccessHandler(ok).withFailureHandler(fail).submitResult(payload); return; }
+  fetch(WEBAPP_URL, { method:"POST", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body: JSON.stringify(payload) })
+    .then(r => r.json()).then(ok, fail);
+}
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const bi = (en, hi) => `<span class="t-en">${esc(en)}</span><span class="t-hi">${esc(hi)}</span>`;
+const PAPER_SIZE = 30;             // questions per participant, drawn at random
+const SPLIT = 30;                  // first SPLIT questions form group 1, the rest group 2 (half the paper from each)
+const passMark = Math.ceil(PAPER_SIZE * PASS_PERCENT / 100);
+
+let S = null;      // state
+let tick = null;
+
+function save(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(S)); }catch(e){} }
+function load(){ try{ return JSON.parse(localStorage.getItem(STORE_KEY) || "null"); }catch(e){ return null; } }
+function clearStore(){ try{ localStorage.removeItem(STORE_KEY); }catch(e){} }
+
+/* language */
+function setLang(l){
+  document.body.classList.remove("lang-both","lang-en","lang-hi");
+  document.body.classList.add("lang-" + l);
+  document.querySelectorAll(".seg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === l ? "true" : "false"));
+  try{ localStorage.setItem(STORE_KEY + "-lang", l); }catch(e){}
+}
+document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
+let savedLang = "both"; try{ savedLang = localStorage.getItem(STORE_KEY + "-lang") || "both"; }catch(e){}
+setLang(savedLang);
+
+function show(which){
+  ["start","test","result"].forEach(s => $("screen-" + s).hidden = s !== which);
+  window.scrollTo(0,0);
+}
+
+/* ---------- start ---------- */
+$("pass-fact").textContent = passMark;
+$("mode-note").innerHTML = SERVER
+  ? bi("Your answer key will be emailed to you automatically when you submit.","जमा करते ही उत्तर-कुंजी आपकी ईमेल पर अपने-आप भेज दी जाएगी।")
+  : bi("After you submit, your answer key is prepared for your email address.","जमा करने के बाद आपकी ईमेल के लिए उत्तर-कुंजी तैयार हो जाएगी।");
+
+const prev = load();
+if (prev && prev.phase === "test" && prev.answers && prev.answers.length === QUESTIONS.length) $("resume").hidden = false;
+if (prev && prev.phase === "result") { S = prev; if (!S.order || !S.result || S.result.per.length !== QUESTIONS.length){ clearStore(); location.reload(); } renderResult(); if (SERVER && S.mail === "sending") sendViaScript(2); }
+$("btn-resume").addEventListener("click", () => { S = load(); startTest(); });
+
+function setStep(n){
+  [1,2,3].forEach(i => {
+    const el = i === 2 ? $("reg") : $("step-" + i); el.hidden = i !== n;
+    const li = $("st-" + i); li.classList.toggle("on", i === n); li.classList.toggle("done", i < n);
+  });
+  window.scrollTo(0,0);
+}
+$("c-read").addEventListener("change", () => $("btn-s1").disabled = !$("c-read").checked);
+$("btn-s1").addEventListener("click", () => { setStep(2); $("f-name").focus(); });
+$("btn-b2").addEventListener("click", () => setStep(1));
+$("btn-b3").addEventListener("click", () => setStep(2));
+let INFO = null;
+$("reg").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = $("f-name").value.trim(), email = $("f-email").value.trim();
+  let ok = true;
+  $("e-name").textContent = ""; $("e-email").textContent = "";
+  if (name.length < 2){ $("e-name").textContent = "Enter your name · अपना नाम लिखें"; ok = false; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ $("e-email").textContent = "Enter a valid email, e.g. name@gmail.com · सही ईमेल लिखें"; ok = false; }
+  if (!ok) return;
+  INFO = { name, email, role:$("f-role").value.trim(), place:$("f-place").value.trim() };
+  $("summary").innerHTML =
+    `<dt>Name · नाम</dt><dd>${esc(INFO.name)}</dd><dt>Email · ईमेल</dt><dd>${esc(INFO.email)}</dd>` +
+    (INFO.role ? `<dt>Designation · पद</dt><dd>${esc(INFO.role)}</dd>` : "") +
+    (INFO.place ? `<dt>District / Block</dt><dd>${esc(INFO.place)}</dd>` : "");
+  setStep(3);
+});
+$("btn-start").addEventListener("click", () => {
+  if (!INFO) { setStep(2); return; }
+  S = { phase:"test", info: INFO, answers: QUESTIONS.map(() => []), marked: QUESTIONS.map(() => false), cur:0, startedAt: Date.now(), ...makePaper() };
+  save(); startTest();
+});
+
+/* ---------- randomised paper (different order for every participant) ---------- */
+function shuffle(a){ for (let i = a.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; }
+function makePaper(){
+  // draw PAPER_SIZE questions at random, half from each group
+  const A = shuffle(QUESTIONS.map((q,i) => i).filter(i => i < SPLIT));
+  const B = shuffle(QUESTIONS.map((q,i) => i).filter(i => i >= SPLIT));
+  const nA = Math.min(A.length, Math.floor(PAPER_SIZE / 2)), nB = Math.min(B.length, PAPER_SIZE - nA);
+  const order = shuffle(A.slice(0, nA).concat(B.slice(0, nB), A.slice(nA, nA + (PAPER_SIZE - nA - nB))));
+  const opt = QUESTIONS.map(q => {                                 // option order per question
+    const idx = q.opts.map((_,k) => k);
+    if (q.opts.some(o => /^(Only|All of) \(/.test(o.en))) return idx;        // "Only (i) and (ii)" type: keep order
+    const free = idx.filter(k => !/^(All of these|None of these)/.test(q.opts[k].en)); // "All/None of these" stay last
+    const mixed = shuffle(free.slice()); let p = 0;
+    return idx.map(k => free.includes(k) ? mixed[p++] : k);
+  });
+  return { order, opt };
+}
+function paper(){ if (!S.order){ Object.assign(S, makePaper()); save(); } }
+const qAt = d => S.order[d];                                        // display position -> master question index
+const letterOf = (qi,k) => LETTERS[S.opt[qi].indexOf(k)];          // master option -> letter this participant saw
+
+/* ---------- test ---------- */
+function startTest(){
+  paper();
+  show("test");
+  $("who").innerHTML = `<b>${esc(S.info.name)}</b> · ${esc(S.info.email)}`;
+  buildPalette(); renderQ(); updateTimer();
+  clearInterval(tick); tick = setInterval(updateTimer, 250);
+}
+
+function remaining(){ return S.startedAt + DURATION_MS - Date.now(); }
+function fmt(ms){ ms = Math.max(0, ms); const s = Math.ceil(ms/1000); return String(Math.floor(s/60)).padStart(2,"0") + ":" + String(s%60).padStart(2,"0"); }
+function updateTimer(){
+  if (!S || S.phase !== "test") return;
+  const r = remaining();
+  $("timer-txt").textContent = fmt(r);
+  const t = $("timer");
+  t.classList.toggle("warn", r <= 5*60*1000 && r > 2*60*1000);
+  t.classList.toggle("danger", r <= 2*60*1000);
+  const used = Math.min(1, 1 - r / DURATION_MS);
+  const bar = $("timeline"); bar.style.width = (used*100).toFixed(2) + "%";
+  bar.style.background = r <= 2*60*1000 ? "var(--bad)" : r <= 5*60*1000 ? "var(--mango)" : "var(--leaf)";
+  if (r <= 0) finish(true);
+}
+
+function buildPalette(){
+  $("pgrid").innerHTML = S.order.map((_,i) => `<button class="pbtn" id="p-${i}" data-i="${i}" type="button" aria-label="Question ${i+1}">${i+1}</button>`).join("");
+  $("pgrid").querySelectorAll(".pbtn").forEach(b => b.addEventListener("click", () => go(+b.dataset.i)));
+  paintPalette();
+}
+function paintPalette(){
+  let a=0,m=0;
+  S.order.forEach((_,d) => {
+    const qi = qAt(d), b = $("p-" + d), ans = S.answers[qi].length > 0;
+    if (ans) a++; if (S.marked[qi]) m++;
+    b.className = "pbtn" + (ans ? " ans" : "") + (S.marked[qi] ? " mk" : "") + (d === S.cur ? " cur" : "");
+  });
+  $("cnt-a").textContent = a; $("cnt-u").textContent = S.order.length - a; $("cnt-m").textContent = m;
+}
+
+function renderQ(){
+  const d = S.cur, i = qAt(d), q = QUESTIONS[i], multi = q.type === "multi", sel = S.answers[i], map = S.opt[i];
+  const tag = multi
+    ? `<span class="tag tag-multi">Select all correct · सभी सही चुनें</span>`
+    : `<span class="tag tag-one">Choose one · एक चुनें</span>`;
+  $("qcard").innerHTML = `
+    <div class="qhead"><div class="qnum">Question <b>${d+1}</b> / ${S.order.length}</div>${tag}</div>
+    <div class="qtext">${bi(q.q.en, q.q.hi)}</div>
+    <div class="opts" role="${multi ? "group" : "radiogroup"}">
+      ${map.map((k,pos) => `
+        <button type="button" class="opt ${multi ? "multi" : ""}" id="opt-${k}" data-k="${k}" style="--c:var(--c${pos})"
+          role="${multi ? "checkbox" : "radio"}" aria-checked="${sel.includes(k)}">
+          <span class="chip">${LETTERS[pos]}</span>
+          <span class="otext">${bi(q.opts[k].en, q.opts[k].hi)}</span>
+          <span class="tick" aria-hidden="true"></span>
+        </button>`).join("")}
+    </div>
+    <div class="qnav">
+      <div class="grp">
+        <button class="btn btn-ghost" id="btn-prev" type="button" ${d===0?"disabled":""}>← Previous · पिछला</button>
+        <button class="btn btn-ghost btn-mark" id="btn-mark" type="button" aria-pressed="${S.marked[i]}">${S.marked[i] ? "★ Marked · चिन्हित" : "☆ Mark for review · चिन्हित करें"}</button>
+        <button class="btn btn-ghost" id="btn-clear" type="button" ${sel.length?"":"disabled"}>Clear · हटाएं</button>
+      </div>
+      ${d < S.order.length-1
+        ? `<button class="btn btn-primary" id="btn-next" type="button">Save & next · अगला →</button>`
+        : `<button class="btn btn-warn" id="btn-last" type="button">Review & submit · जमा करें</button>`}
+    </div>`;
+  $("qcard").querySelectorAll(".opt").forEach(b => b.addEventListener("click", () => pick(+b.dataset.k)));
+  $("btn-prev").addEventListener("click", () => go(d-1));
+  $("btn-mark").addEventListener("click", () => { S.marked[i] = !S.marked[i]; save(); renderQ(); });
+  $("btn-clear").addEventListener("click", () => { S.answers[i] = []; save(); renderQ(); });
+  if ($("btn-next")) $("btn-next").addEventListener("click", () => go(d+1));
+  if ($("btn-last")) $("btn-last").addEventListener("click", askSubmit);
+  paintPalette();
+}
+function pick(k){
+  const i = qAt(S.cur), q = QUESTIONS[i];
+  let a = S.answers[i].slice();
+  if (q.type === "multi"){ a = a.includes(k) ? a.filter(x => x !== k) : a.concat(k).sort(); }
+  else a = [k];
+  S.answers[i] = a; save(); renderQ();
+  const el = $("opt-" + k); if (el) el.focus();
+}
+function go(i){ if (i<0 || i>=S.order.length) return; S.cur = i; save(); renderQ(); $("qcard").scrollIntoView({block:"nearest"}); }
+
+document.addEventListener("keydown", e => {
+  if (!S || S.phase !== "test" || !$("confirm").hidden) return;
+  if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+  const k = e.key.toUpperCase(), idx = LETTERS.indexOf(k), n = "12345".indexOf(e.key);
+  const map = S.opt[qAt(S.cur)];
+  if (idx >= 0 && idx < map.length) pick(map[idx]);
+  else if (n >= 0 && n < map.length) pick(map[n]);
+  else if (e.key === "ArrowRight") go(S.cur+1);
+  else if (e.key === "ArrowLeft") go(S.cur-1);
+});
+
+function askSubmit(){
+  const a = S.answers.filter(x => x.length).length, u = S.order.length - a, m = S.marked.filter(Boolean).length;
+  $("confirm-body").innerHTML =
+    `Answered <b>${a}</b> · Not answered <b>${u}</b> · Marked for review <b>${m}</b><br>` +
+    `उत्तर दिए <b>${a}</b> · शेष <b>${u}</b> · समीक्षा हेतु चिन्हित <b>${m}</b><br>` +
+    `Time left · शेष समय: <b>${fmt(remaining())}</b>`;
+  const w = $("confirm-warn");
+  w.hidden = u === 0 && m === 0;
+  w.innerHTML = u > 0 ? `${u} question(s) not answered — blank answers get 0. · ${u} प्रश्न छूटे हैं — खाली उत्तर पर 0 अंक।`
+                      : `${m} question(s) still marked for review. · ${m} प्रश्न अभी समीक्षा हेतु चिन्हित हैं।`;
+  $("btn-gofirst").hidden = u === 0;
+  $("c-final").checked = false; $("btn-confirm").disabled = true;
+  $("confirm").hidden = false; $("btn-cancel").focus();
+}
+$("c-final").addEventListener("change", () => $("btn-confirm").disabled = !$("c-final").checked);
+$("btn-gofirst").addEventListener("click", () => {
+  const d = S.order.findIndex(qi => !S.answers[qi].length);
+  $("confirm").hidden = true; if (d >= 0) go(d);
+});
+$("btn-submit-top").addEventListener("click", askSubmit);
+$("btn-cancel").addEventListener("click", () => $("confirm").hidden = true);
+$("btn-confirm").addEventListener("click", () => { if (!$("c-final").checked) return; $("confirm").hidden = true; finish(false); });
+
+/* ---------- scoring ---------- */
+function score(answers, order){
+  let c=0,w=0,u=0; const per = QUESTIONS.map(() => "");   // "" = not in this participant's paper
+  order.forEach(i => {
+    const a = (answers[i] || []).slice().sort().join(","), k = QUESTIONS[i].ans.slice().sort().join(",");
+    if (!a){ u++; per[i] = "skip"; } else if (a === k){ c++; per[i] = "ok"; } else { w++; per[i] = "bad"; }
+  });
+  const n = order.length, pm = Math.ceil(n * PASS_PERCENT / 100);
+  return { correct:c, wrong:w, unanswered:u, total:n, pct: Math.round(c*100/n), passMark: pm, passed: c >= pm, per };
+}
+
+function finish(timeUp){
+  if (!S || S.phase !== "test") return;
+  clearInterval(tick);
+  S.submittedAt = Math.min(Date.now(), S.startedAt + DURATION_MS);
+  S.timeUp = timeUp;
+  S.result = score(S.answers, S.order);
+  S.phase = "result";
+  S.mail = SERVER ? "sending" : "manual";
+  save();
+  renderResult();
+  if (SERVER) sendViaScript();
+}
+
+function sendViaScript(attempt){
+  attempt = attempt || 1;
+  const payload = { info:S.info, answers:S.answers, order:S.order, opt:S.opt, startedAt:S.startedAt, submittedAt:S.submittedAt, timeUp:!!S.timeUp };
+  // spread out submissions when a whole batch finishes together (e.g. everyone's timer ends at once)
+  const wait = attempt === 1 ? Math.random() * (S.timeUp ? 15000 : 3000) : Math.min(30000, 4000 * attempt) + Math.random() * 4000;
+  S.mail = "sending"; S.mailTry = attempt; save(); paintMail();
+  setTimeout(() => {
+    callServer(payload,
+      r => { if (r && r.ok){ S.mail = "sent"; save(); paintMail(); } else retryOrFail(attempt, r && r.error); },
+      err => retryOrFail(attempt, String(err && err.message || err)));
+  }, wait);
+}
+function retryOrFail(attempt, err){
+  S.mailErr = err;
+  if (attempt < 6) { sendViaScript(attempt + 1); return; }
+  S.mail = "failed"; save(); paintMail();
+}
+
+/* ---------- result ---------- */
+function mmss(ms){ const s = Math.round(ms/1000); return Math.floor(s/60) + " min " + (s%60) + " s"; }
+
+function answerKeyText(){
+  const r = S.result, L = [];
+  L.push("BHGY Plantation Post-Test — Result & Answer Key");
+  L.push("बिरसा हरित ग्राम योजना वृक्षारोपण पोस्ट-टेस्ट — परिणाम एवं उत्तर-कुंजी");
+  L.push("");
+  L.push(`Name / नाम: ${S.info.name}`);
+  if (S.info.role) L.push(`Designation / पद: ${S.info.role}`);
+  if (S.info.place) L.push(`District/Block / जिला/प्रखण्ड: ${S.info.place}`);
+  L.push(`Score / अंक: ${r.correct} / ${r.total} (${r.pct}%) — ${r.passed ? "PASSED / उत्तीर्ण" : "NOT PASSED / अनुत्तीर्ण"} (pass mark ${passMark})`);
+  L.push(`Correct / सही: ${r.correct} | Wrong / गलत: ${r.wrong} | Unanswered / छोड़े: ${r.unanswered}`);
+  L.push(`Time taken / लिया गया समय: ${mmss(S.submittedAt - S.startedAt)}`);
+  L.push(""); L.push("-----");
+  S.order.forEach((i,d) => {
+    const q = QUESTIONS[i];
+    const mine = (S.answers[i]||[]).map(k => letterOf(i,k)).sort().join(", ") || "—";
+    const key = q.ans.map(k => letterOf(i,k)).sort().join(", ");
+    const st = r.per[i] === "ok" ? "✔ Correct" : r.per[i] === "bad" ? "✘ Wrong" : "○ Not answered";
+    L.push(`Q${d+1}. ${q.q.en.replace(/\n/g," ")}`);
+    L.push(`प्रश्न ${d+1}. ${q.q.hi.replace(/\n/g," ")}`);
+    L.push(`Your answer / आपका उत्तर: ${mine}   |   Correct / सही उत्तर: ${key} — ${st}`);
+    S.opt[i].filter(k => q.ans.includes(k)).forEach(k => L.push(`  ${letterOf(i,k)}. ${q.opts[k].en} / ${q.opts[k].hi}`));
+    L.push(`Explanation: ${q.exp.en}`);
+    L.push(`व्याख्या: ${q.exp.hi}`);
+    L.push(`Source: ${q.src}`);
+    L.push("");
+  });
+  return L.join("\n");
+}
+
+function paintMail(){
+  const box = $("mailbox"); if (!box) return;
+  const e = esc(S.info.email);
+  if (S.mail === "sending"){
+    box.innerHTML = `<h2>${bi("Answer key by email","ईमेल द्वारा उत्तर-कुंजी")}</h2><div class="status wait">Saving your result and sending to ${e}… · परिणाम सहेजा और भेजा जा रहा है…${(S.mailTry||1) > 1 ? " (try " + S.mailTry + ")" : ""}</div><p class="note">${bi("Keep this page open until you see “Emailed”.","“भेज दी गई” दिखने तक यह पेज खुला रखें।")}</p>`;
+  } else if (S.mail === "sent"){
+    box.innerHTML = `<h2>${bi("Answer key by email","ईमेल द्वारा उत्तर-कुंजी")}</h2><div class="status ok">✔ Emailed to ${e} · आपकी ईमेल पर भेज दी गई है</div><p class="note">${bi("Check your Inbox and Spam folder in a few minutes.","कुछ मिनट में इनबॉक्स और स्पैम फोल्डर देखें।")}</p>`;
+  } else {
+    const subject = `BHGY Post-Test result: ${S.result.correct}/${S.result.total} – ${S.info.name}`;
+    let body = answerKeyText();
+    if (body.length > 7000) body = body.slice(0, 6900) + "\n… (full answer key is on the result page)";
+    const href = `mailto:${encodeURIComponent(S.info.email)}?${TRAINER_EMAIL ? "cc=" + encodeURIComponent(TRAINER_EMAIL) + "&" : ""}subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    box.innerHTML = `
+      <h2>${bi("Answer key for your email","आपकी ईमेल के लिए उत्तर-कुंजी")}</h2>
+      ${S.mail === "failed" ? `<div class="status bad">${bi("Your result could not reach the server (check internet). Try again, or use the buttons below.","परिणाम सर्वर तक नहीं पहुँचा (इंटरनेट जाँचें)। फिर से भेजें, या नीचे के बटन का प्रयोग करें।")}</div>
+        <div class="acts"><button class="btn btn-warn" id="btn-resend" type="button">Send again · फिर से भेजें</button></div>` : ""}
+      <p style="margin:.6em 0 0">${bi("Send the full answer key with explanations to:","पूरी उत्तर-कुंजी (व्याख्या सहित) इस पते पर भेजें:")} <span class="addr">${e}</span></p>
+      <div class="acts">
+        <a class="btn btn-primary" href="${href}" target="_blank" rel="noopener">✉ Open email app · ईमेल खोलें</a>
+        <button class="btn btn-ghost" id="btn-copy" type="button">Copy answer key · कॉपी करें</button>
+      </div>
+      <p class="note">${bi("The email button opens your email app with the answer key filled in — press Send there. If nothing opens, copy the answer key and paste it into an email.","ईमेल बटन आपका ईमेल ऐप उत्तर-कुंजी के साथ खोलेगा — वहाँ Send दबाएं। कुछ न खुले तो उत्तर-कुंजी कॉपी करके ईमेल में पेस्ट करें।")}</p>
+      <textarea id="key-text" readonly hidden aria-label="Answer key text"></textarea>`;
+    if ($("btn-resend")) $("btn-resend").addEventListener("click", () => sendViaScript(1));
+    $("btn-copy").addEventListener("click", () => {
+      const txt = answerKeyText();
+      const done = () => { $("btn-copy").textContent = "Copied ✔ · कॉपी हो गया"; };
+      const fallback = () => { const t = $("key-text"); t.hidden = false; t.value = txt; t.focus(); t.select(); $("btn-copy").textContent = "Select all & copy below · नीचे से कॉपी करें"; };
+      try { navigator.clipboard.writeText(txt).then(done, fallback); } catch(err){ fallback(); }
+    });
+  }
+}
+
+function renderResult(){
+  show("result");
+  const r = S.result, C = 2*Math.PI*70, frac = r.correct / r.total;
+  const col = r.passed ? "var(--ok)" : "var(--bad)";
+  $("screen-result").innerHTML = `
+    <div class="rhead">
+      <div class="ring" aria-label="Score ${r.correct} out of ${r.total}">
+        <svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" fill="none" stroke="var(--surface-2)" stroke-width="14"/>
+          <circle cx="80" cy="80" r="70" fill="none" stroke="${col}" stroke-width="14" stroke-linecap="round"
+            stroke-dasharray="${(C*frac).toFixed(1)} ${C.toFixed(1)}"/></svg>
+        <div class="num"><b>${r.correct}/${r.total}</b><span>${r.pct}%</span></div>
+      </div>
+      <div>
+        <span class="stamp ${r.passed ? "pass" : "fail"}">${r.passed ? "Passed · उत्तीर्ण" : "Not passed · अनुत्तीर्ण"}</span>
+        <h1 class="rtitle">${esc(S.info.name)}</h1>
+        <div class="rmeta">${esc(S.info.email)}${S.info.role ? " · " + esc(S.info.role) : ""}${S.info.place ? " · " + esc(S.info.place) : ""}</div>
+        <div class="rmeta">${bi(`Pass mark: ${passMark} of ${r.total} (${PASS_PERCENT}%). ${S.timeUp ? "Time ran out — submitted automatically." : ""}`,
+                              `उत्तीर्णांक: ${r.total} में ${passMark} (${PASS_PERCENT}%)। ${S.timeUp ? "समय समाप्त — अपने-आप जमा हुआ।" : ""}`)}</div>
+      </div>
+    </div>
+    <div class="tiles">
+      <div class="tile ok"><b>${r.correct}</b><span>Correct<br>सही</span></div>
+      <div class="tile bad"><b>${r.wrong}</b><span>Wrong<br>गलत</span></div>
+      <div class="tile skip"><b>${r.unanswered}</b><span>Not answered<br>छोड़े गए</span></div>
+      <div class="tile"><b style="font-size:1.45rem">${mmss(S.submittedAt - S.startedAt)}</b><span>Time taken<br>लिया गया समय</span></div>
+    </div>
+    <div class="panel mailbox" id="mailbox"></div>
+    <div class="review-head">
+      <h2>${bi("Answers with explanations","उत्तर एवं व्याख्या")}</h2>
+      <div class="filters" role="group" aria-label="Filter">
+        <button data-f="all" aria-pressed="true">All · सभी (${r.total})</button>
+        <button data-f="bad" aria-pressed="false">Wrong · गलत (${r.wrong})</button>
+        <button data-f="skip" aria-pressed="false">Not answered · छोड़े (${r.unanswered})</button>
+        <button data-f="ok" aria-pressed="false">Correct · सही (${r.correct})</button>
+      </div>
+    </div>
+    <div class="rlist" id="rlist">${S.order.map((i,d) => reviewItem(QUESTIONS[i],i,d)).join("")}</div>
+    <div class="foot"><button class="btn btn-ghost" id="btn-new" type="button">New participant · नया प्रतिभागी</button></div>`;
+  $("screen-result").querySelectorAll(".filters button").forEach(b => b.addEventListener("click", () => {
+    $("screen-result").querySelectorAll(".filters button").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+    document.querySelectorAll(".ritem").forEach(it => it.hidden = !(b.dataset.f === "all" || it.dataset.st === b.dataset.f));
+  }));
+  $("btn-new").addEventListener("click", () => { clearStore(); location.reload(); });
+  paintMail();
+}
+
+function reviewItem(q,i,d){
+  const st = S.result.per[i], mine = S.answers[i] || [];
+  const badge = st === "ok" ? `<span class="badge ok">✔ Correct · सही</span>` : st === "bad" ? `<span class="badge bad">✘ Wrong · गलत</span>` : `<span class="badge skip">○ Not answered · छोड़ा</span>`;
+  return `<div class="ritem ${st}" data-st="${st}">
+    <div class="top"><div class="qnum">Q <b>${d+1}</b> · <span class="tag ${q.type === "multi" ? "tag-multi" : "tag-one"}">${q.type === "multi" ? "Select all" : "Choose one"}</span></div>${badge}</div>
+    <div class="qt">${bi(q.q.en, q.q.hi)}</div>
+    <ul class="rop">${S.opt[i].map((k,pos) => { const o = q.opts[k];
+      const isKey = q.ans.includes(k), picked = mine.includes(k);
+      const cls = isKey ? "correct" : picked ? "picked-wrong" : "";
+      const mk = isKey && picked ? "✔ Your answer" : isKey ? "✔ Correct" : picked ? "✘ Your answer" : "";
+      return `<li class="${cls}"><span class="L">${LETTERS[pos]}</span><span>${bi(o.en, o.hi)}</span><span class="mk">${mk}</span></li>`;
+    }).join("")}</ul>
+    <div class="explain"><div class="lbl">Explanation · व्याख्या</div>${bi(q.exp.en, q.exp.hi)}</div>
+    <div class="src">Source · स्रोत: ${esc(q.src)}</div>
+  </div>`;
+}
+</script>
+
+</body>
+</html>
